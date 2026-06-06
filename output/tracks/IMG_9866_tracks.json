@@ -1,0 +1,1659 @@
+{
+  "0": {
+    "0": {
+      "centroid": [
+        1241,
+        206
+      ],
+      "score": 0.598588764667511,
+      "label": "robot1"
+    },
+    "1": {
+      "centroid": null,
+      "score": 0.9384911060333252,
+      "label": "robot1"
+    },
+    "2": {
+      "centroid": [
+        1084,
+        267
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        922,
+        262
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "1": {
+    "2": {
+      "centroid": [
+        1087,
+        259
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        948,
+        276
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "2": {
+    "2": {
+      "centroid": [
+        1088,
+        262
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        856,
+        305
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "3": {
+    "2": {
+      "centroid": [
+        1083,
+        270
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        982,
+        242
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "4": {
+    "2": {
+      "centroid": [
+        1082,
+        271
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        879,
+        295
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "5": {
+    "2": {
+      "centroid": [
+        1082,
+        272
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        929,
+        287
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "6": {
+    "2": {
+      "centroid": [
+        1095,
+        267
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1064,
+        225
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "7": {
+    "3": {
+      "centroid": [
+        1050,
+        264
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "8": {
+    "3": {
+      "centroid": [
+        1121,
+        208
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "9": {
+    "3": {
+      "centroid": [
+        1149,
+        197
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "10": {
+    "3": {
+      "centroid": [
+        1218,
+        222
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "11": {
+    "3": {
+      "centroid": [
+        1264,
+        209
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "12": {
+    "3": {
+      "centroid": [
+        1309,
+        196
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "13": {
+    "3": {
+      "centroid": [
+        1349,
+        179
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "14": {
+    "3": {
+      "centroid": [
+        1369,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "15": {
+    "3": {
+      "centroid": [
+        1366,
+        178
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "16": {
+    "2": {
+      "centroid": [
+        1418,
+        171
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1346,
+        178
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "17": {
+    "2": {
+      "centroid": [
+        1437,
+        163
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1334,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "18": {
+    "2": {
+      "centroid": [
+        1461,
+        157
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1346,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "19": {
+    "2": {
+      "centroid": [
+        1478,
+        156
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1369,
+        171
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "20": {
+    "2": {
+      "centroid": [
+        1478,
+        160
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1394,
+        169
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "21": {
+    "2": {
+      "centroid": [
+        1481,
+        163
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1401,
+        166
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "22": {
+    "2": {
+      "centroid": [
+        1481,
+        167
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1398,
+        168
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "23": {
+    "2": {
+      "centroid": [
+        1482,
+        171
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1394,
+        171
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "24": {
+    "2": {
+      "centroid": [
+        1483,
+        174
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1377,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "25": {
+    "2": {
+      "centroid": [
+        1485,
+        178
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1368,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "26": {
+    "2": {
+      "centroid": [
+        1487,
+        182
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1369,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "27": {
+    "2": {
+      "centroid": [
+        1489,
+        187
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1382,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "28": {
+    "2": {
+      "centroid": [
+        1490,
+        190
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1392,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "29": {
+    "2": {
+      "centroid": [
+        1492,
+        193
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1398,
+        175
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "30": {
+    "2": {
+      "centroid": [
+        1493,
+        196
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1387,
+        179
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "31": {
+    "2": {
+      "centroid": [
+        1494,
+        199
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1372,
+        184
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "32": {
+    "2": {
+      "centroid": [
+        1497,
+        201
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1373,
+        186
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "33": {
+    "2": {
+      "centroid": [
+        1492,
+        207
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1389,
+        190
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "34": {
+    "3": {
+      "centroid": [
+        1279,
+        205
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "35": {
+    "3": {
+      "centroid": [
+        1295,
+        200
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "36": {
+    "3": {
+      "centroid": [
+        1309,
+        195
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "37": {
+    "3": {
+      "centroid": [
+        1324,
+        188
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "38": {
+    "3": {
+      "centroid": [
+        1337,
+        184
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "39": {
+    "3": {
+      "centroid": [
+        1349,
+        179
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "40": {
+    "3": {
+      "centroid": [
+        1358,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "41": {
+    "3": {
+      "centroid": [
+        1365,
+        175
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "42": {
+    "3": {
+      "centroid": [
+        1369,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "43": {
+    "3": {
+      "centroid": [
+        1370,
+        177
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "44": {
+    "3": {
+      "centroid": [
+        1369,
+        178
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "45": {
+    "3": {
+      "centroid": [
+        1366,
+        178
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "46": {
+    "3": {
+      "centroid": [
+        1360,
+        178
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "47": {
+    "2": {
+      "centroid": [
+        1416,
+        168
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1353,
+        178
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "48": {
+    "2": {
+      "centroid": [
+        1413,
+        168
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1344,
+        179
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "49": {
+    "2": {
+      "centroid": [
+        1422,
+        166
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1338,
+        177
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "50": {
+    "2": {
+      "centroid": [
+        1429,
+        165
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1335,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "51": {
+    "2": {
+      "centroid": [
+        1437,
+        163
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1334,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "52": {
+    "2": {
+      "centroid": [
+        1445,
+        161
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1336,
+        175
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "53": {
+    "2": {
+      "centroid": [
+        1453,
+        159
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1341,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "54": {
+    "2": {
+      "centroid": [
+        1461,
+        157
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1346,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "55": {
+    "2": {
+      "centroid": [
+        1468,
+        155
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1353,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "56": {
+    "2": {
+      "centroid": [
+        1475,
+        156
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1361,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "57": {
+    "2": {
+      "centroid": [
+        1478,
+        156
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1369,
+        171
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "58": {
+    "2": {
+      "centroid": [
+        1477,
+        157
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1378,
+        171
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "59": {
+    "2": {
+      "centroid": [
+        1478,
+        158
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1387,
+        170
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "60": {
+    "2": {
+      "centroid": [
+        1478,
+        160
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1395,
+        169
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "61": {
+    "2": {
+      "centroid": [
+        1479,
+        161
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1399,
+        168
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "62": {
+    "2": {
+      "centroid": [
+        1479,
+        162
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1401,
+        166
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "63": {
+    "2": {
+      "centroid": [
+        1481,
+        163
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1401,
+        166
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "64": {
+    "2": {
+      "centroid": [
+        1481,
+        164
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1399,
+        166
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "65": {
+    "2": {
+      "centroid": [
+        1481,
+        166
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1399,
+        166
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "66": {
+    "2": {
+      "centroid": [
+        1481,
+        167
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1398,
+        168
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "67": {
+    "2": {
+      "centroid": [
+        1482,
+        168
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1399,
+        169
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "68": {
+    "2": {
+      "centroid": [
+        1481,
+        169
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1398,
+        170
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "69": {
+    "2": {
+      "centroid": [
+        1482,
+        171
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1394,
+        171
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "70": {
+    "2": {
+      "centroid": [
+        1482,
+        172
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1388,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "71": {
+    "2": {
+      "centroid": [
+        1482,
+        173
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1382,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "72": {
+    "2": {
+      "centroid": [
+        1483,
+        174
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1378,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "73": {
+    "2": {
+      "centroid": [
+        1483,
+        175
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1374,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "74": {
+    "2": {
+      "centroid": [
+        1484,
+        177
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1371,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "75": {
+    "2": {
+      "centroid": [
+        1485,
+        178
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1369,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "76": {
+    "2": {
+      "centroid": [
+        1486,
+        179
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1367,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "77": {
+    "2": {
+      "centroid": [
+        1486,
+        181
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1367,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "78": {
+    "2": {
+      "centroid": [
+        1487,
+        181
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1369,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "79": {
+    "2": {
+      "centroid": [
+        1488,
+        183
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1372,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "80": {
+    "2": {
+      "centroid": [
+        1489,
+        184
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1377,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "81": {
+    "2": {
+      "centroid": [
+        1489,
+        187
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1382,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "82": {
+    "2": {
+      "centroid": [
+        1489,
+        188
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1387,
+        172
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "83": {
+    "2": {
+      "centroid": [
+        1490,
+        189
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1389,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "84": {
+    "2": {
+      "centroid": [
+        1490,
+        190
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1392,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "85": {
+    "2": {
+      "centroid": [
+        1491,
+        191
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1396,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "86": {
+    "2": {
+      "centroid": [
+        1491,
+        192
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1398,
+        173
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "87": {
+    "2": {
+      "centroid": [
+        1492,
+        193
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1399,
+        174
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "88": {
+    "2": {
+      "centroid": [
+        1492,
+        194
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1397,
+        175
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "89": {
+    "2": {
+      "centroid": [
+        1493,
+        195
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1393,
+        176
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "90": {
+    "2": {
+      "centroid": [
+        1493,
+        196
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1211,
+        215
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "91": {
+    "2": {
+      "centroid": [
+        1494,
+        197
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1208,
+        216
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "92": {
+    "2": {
+      "centroid": [
+        1494,
+        198
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1206,
+        217
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "93": {
+    "2": {
+      "centroid": [
+        1495,
+        198
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1206,
+        216
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "94": {
+    "2": {
+      "centroid": [
+        1495,
+        199
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1205,
+        216
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "95": {
+    "2": {
+      "centroid": [
+        1496,
+        199
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1205,
+        216
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "96": {
+    "2": {
+      "centroid": [
+        1497,
+        201
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1203,
+        216
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "97": {
+    "2": {
+      "centroid": [
+        1497,
+        201
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1203,
+        217
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "98": {
+    "2": {
+      "centroid": [
+        1498,
+        203
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1205,
+        218
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "99": {
+    "2": {
+      "centroid": [
+        1493,
+        208
+      ],
+      "score": 1.0,
+      "label": "robot2"
+    },
+    "3": {
+      "centroid": [
+        1203,
+        221
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "100": {
+    "3": {
+      "centroid": [
+        1198,
+        226
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  },
+  "101": {
+    "3": {
+      "centroid": [
+        1216,
+        234
+      ],
+      "score": 1.0,
+      "label": "ball"
+    }
+  }
+}

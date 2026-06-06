@@ -1,0 +1,30 @@
+# Entorno Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# SAM3 pesos del modelo
+sam3/checkpoints/
+sam3/*.pth
+sam3/*.pt
+*.pth
+*.pt
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Variables de entorno
+.env
+*.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
