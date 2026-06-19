@@ -1,0 +1,1480 @@
+{
+  "frames": {
+    "0": {
+      "possessor": null,
+      "ball_pos": [
+        511,
+        262
+      ],
+      "ball_dists": {
+        "robot1": 263.5
+      },
+      "velocities": {
+        "robot1": 0.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "1": {
+      "possessor": null,
+      "ball_pos": [
+        510,
+        261
+      ],
+      "ball_dists": {
+        "robot1": 261.5
+      },
+      "velocities": {
+        "robot1": 116.6,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "2": {
+      "possessor": null,
+      "ball_pos": [
+        510,
+        260
+      ],
+      "ball_dists": {
+        "robot1": 235.7
+      },
+      "velocities": {
+        "robot1": 261.7,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "3": {
+      "possessor": null,
+      "ball_pos": [
+        509,
+        259
+      ],
+      "ball_dists": {
+        "robot1": 205.6
+      },
+      "velocities": {
+        "robot1": 314.0,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "4": {
+      "possessor": null,
+      "ball_pos": [
+        509,
+        259
+      ],
+      "ball_dists": {
+        "robot1": 188.6
+      },
+      "velocities": {
+        "robot1": 180.3,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "5": {
+      "possessor": null,
+      "ball_pos": [
+        508,
+        257
+      ],
+      "ball_dists": {
+        "robot1": 185.1
+      },
+      "velocities": {
+        "robot1": 120.4,
+        "ball": 22.4
+      },
+      "events": []
+    },
+    "6": {
+      "possessor": null,
+      "ball_pos": [
+        508,
+        256
+      ],
+      "ball_dists": {
+        "robot1": 173.4
+      },
+      "velocities": {
+        "robot1": 219.5,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "7": {
+      "possessor": null,
+      "ball_pos": [
+        509,
+        256
+      ],
+      "ball_dists": {
+        "robot1": 155.4
+      },
+      "velocities": {
+        "robot1": 281.6,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "8": {
+      "possessor": "robot1",
+      "ball_pos": [
+        509,
+        256
+      ],
+      "ball_dists": {
+        "robot1": 133.1
+      },
+      "velocities": {
+        "robot1": 290.7,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "9": {
+      "possessor": "robot1",
+      "ball_pos": [
+        509,
+        255
+      ],
+      "ball_dists": {
+        "robot1": 107.1
+      },
+      "velocities": {
+        "robot1": 327.6,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "10": {
+      "possessor": "robot1",
+      "ball_pos": [
+        509,
+        254
+      ],
+      "ball_dists": {
+        "robot1": 91.7
+      },
+      "velocities": {
+        "robot1": 183.8,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "11": {
+      "possessor": "robot1",
+      "ball_pos": [
+        509,
+        253
+      ],
+      "ball_dists": {
+        "robot1": 91.3
+      },
+      "velocities": {
+        "robot1": 31.6,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "12": {
+      "possessor": "robot1",
+      "ball_pos": [
+        509,
+        252
+      ],
+      "ball_dists": {
+        "robot1": 103.5
+      },
+      "velocities": {
+        "robot1": 161.6,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "13": {
+      "possessor": "robot1",
+      "ball_pos": [
+        510,
+        251
+      ],
+      "ball_dists": {
+        "robot1": 126.2
+      },
+      "velocities": {
+        "robot1": 273.1,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "14": {
+      "possessor": "robot1",
+      "ball_pos": [
+        510,
+        250
+      ],
+      "ball_dists": {
+        "robot1": 145.0
+      },
+      "velocities": {
+        "robot1": 235.4,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "15": {
+      "possessor": "robot1",
+      "ball_pos": [
+        511,
+        249
+      ],
+      "ball_dists": {
+        "robot1": 145.7
+      },
+      "velocities": {
+        "robot1": 100.0,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "16": {
+      "possessor": "robot1",
+      "ball_pos": [
+        511,
+        248
+      ],
+      "ball_dists": {
+        "robot1": 134.5
+      },
+      "velocities": {
+        "robot1": 151.3,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "17": {
+      "possessor": "robot1",
+      "ball_pos": [
+        511,
+        247
+      ],
+      "ball_dists": {
+        "robot1": 115.8
+      },
+      "velocities": {
+        "robot1": 192.1,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "18": {
+      "possessor": "robot1",
+      "ball_pos": [
+        512,
+        246
+      ],
+      "ball_dists": {
+        "robot1": 94.3
+      },
+      "velocities": {
+        "robot1": 201.2,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "19": {
+      "possessor": "robot1",
+      "ball_pos": [
+        513,
+        245
+      ],
+      "ball_dists": {
+        "robot1": 79.0
+      },
+      "velocities": {
+        "robot1": 170.0,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "20": {
+      "possessor": "robot1",
+      "ball_pos": [
+        513,
+        244
+      ],
+      "ball_dists": {
+        "robot1": 65.8
+      },
+      "velocities": {
+        "robot1": 151.3,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "21": {
+      "possessor": "robot1",
+      "ball_pos": [
+        510,
+        243
+      ],
+      "ball_dists": {
+        "robot1": 60.1
+      },
+      "velocities": {
+        "robot1": 76.2,
+        "ball": 31.6
+      },
+      "events": []
+    },
+    "22": {
+      "possessor": "robot1",
+      "ball_pos": [
+        502,
+        250
+      ],
+      "ball_dists": {
+        "robot1": 61.8
+      },
+      "velocities": {
+        "robot1": 104.4,
+        "ball": 106.3
+      },
+      "events": []
+    },
+    "23": {
+      "possessor": "robot1",
+      "ball_pos": [
+        489,
+        258
+      ],
+      "ball_dists": {
+        "robot1": 72.7
+      },
+      "velocities": {
+        "robot1": 90.6,
+        "ball": 152.6
+      },
+      "events": []
+    },
+    "24": {
+      "possessor": "robot1",
+      "ball_pos": [
+        476,
+        265
+      ],
+      "ball_dists": {
+        "robot1": 79.6
+      },
+      "velocities": {
+        "robot1": 82.5,
+        "ball": 147.6
+      },
+      "events": [
+        {
+          "type": "shot_on_goal",
+          "frame": 24,
+          "time_s": 2.4,
+          "color": "yellow",
+          "side": "left",
+          "frames_to_goal": 3
+        }
+      ]
+    },
+    "25": {
+      "possessor": "robot1",
+      "ball_pos": [
+        464,
+        273
+      ],
+      "ball_dists": {
+        "robot1": 83.7
+      },
+      "velocities": {
+        "robot1": 153.0,
+        "ball": 144.2
+      },
+      "events": []
+    },
+    "26": {
+      "possessor": "robot1",
+      "ball_pos": [
+        453,
+        280
+      ],
+      "ball_dists": {
+        "robot1": 91.4
+      },
+      "velocities": {
+        "robot1": 156.5,
+        "ball": 130.4
+      },
+      "events": []
+    },
+    "27": {
+      "possessor": "robot1",
+      "ball_pos": [
+        444,
+        287
+      ],
+      "ball_dists": {
+        "robot1": 99.4
+      },
+      "velocities": {
+        "robot1": 120.8,
+        "ball": 114.0
+      },
+      "events": []
+    },
+    "28": {
+      "possessor": "robot1",
+      "ball_pos": [
+        435,
+        292
+      ],
+      "ball_dists": {
+        "robot1": 106.3
+      },
+      "velocities": {
+        "robot1": 72.8,
+        "ball": 103.0
+      },
+      "events": []
+    },
+    "29": {
+      "possessor": "robot1",
+      "ball_pos": [
+        426,
+        298
+      ],
+      "ball_dists": {
+        "robot1": 117.2
+      },
+      "velocities": {
+        "robot1": 58.3,
+        "ball": 108.2
+      },
+      "events": []
+    },
+    "30": {
+      "possessor": "robot1",
+      "ball_pos": [
+        419,
+        303
+      ],
+      "ball_dists": {
+        "robot1": 133.7
+      },
+      "velocities": {
+        "robot1": 94.9,
+        "ball": 86.0
+      },
+      "events": []
+    },
+    "31": {
+      "possessor": null,
+      "ball_pos": [
+        412,
+        308
+      ],
+      "ball_dists": {
+        "robot1": 160.6
+      },
+      "velocities": {
+        "robot1": 208.8,
+        "ball": 86.0
+      },
+      "events": []
+    },
+    "32": {
+      "possessor": null,
+      "ball_pos": [
+        406,
+        313
+      ],
+      "ball_dists": {
+        "robot1": 193.7
+      },
+      "velocities": {
+        "robot1": 264.0,
+        "ball": 78.1
+      },
+      "events": []
+    },
+    "33": {
+      "possessor": null,
+      "ball_pos": [
+        402,
+        317
+      ],
+      "ball_dists": {
+        "robot1": 204.9
+      },
+      "velocities": {
+        "robot1": 80.6,
+        "ball": 56.6
+      },
+      "events": []
+    },
+    "34": {
+      "possessor": null,
+      "ball_pos": [
+        400,
+        321
+      ],
+      "ball_dists": {
+        "robot1": 189.1
+      },
+      "velocities": {
+        "robot1": 198.5,
+        "ball": 44.7
+      },
+      "events": []
+    },
+    "35": {
+      "possessor": "robot1",
+      "ball_pos": [
+        399,
+        323
+      ],
+      "ball_dists": {
+        "robot1": 147.8
+      },
+      "velocities": {
+        "robot1": 434.2,
+        "ball": 22.4
+      },
+      "events": []
+    },
+    "36": {
+      "possessor": "robot1",
+      "ball_pos": [
+        397,
+        324
+      ],
+      "ball_dists": {
+        "robot1": 97.0
+      },
+      "velocities": {
+        "robot1": 532.5,
+        "ball": 22.4
+      },
+      "events": []
+    },
+    "37": {
+      "possessor": "robot1",
+      "ball_pos": [
+        386,
+        331
+      ],
+      "ball_dists": {
+        "robot1": 61.5
+      },
+      "velocities": {
+        "robot1": 488.3,
+        "ball": 130.4
+      },
+      "events": []
+    },
+    "38": {
+      "possessor": "robot1",
+      "ball_pos": [
+        351,
+        353
+      ],
+      "ball_dists": {
+        "robot1": 78.1
+      },
+      "velocities": {
+        "robot1": 240.8,
+        "ball": 413.4
+      },
+      "events": []
+    },
+    "39": {
+      "possessor": "robot1",
+      "ball_pos": [
+        317,
+        372
+      ],
+      "ball_dists": {
+        "robot1": 103.7
+      },
+      "velocities": {
+        "robot1": 136.0,
+        "ball": 389.5
+      },
+      "events": []
+    },
+    "40": {
+      "possessor": "robot1",
+      "ball_pos": [
+        287,
+        390
+      ],
+      "ball_dists": {
+        "robot1": 138.2
+      },
+      "velocities": {
+        "robot1": 44.7,
+        "ball": 349.9
+      },
+      "events": [
+        {
+          "type": "goal",
+          "frame": 40,
+          "time_s": 4.0,
+          "color": "yellow",
+          "side": "left",
+          "scorer": "robot1",
+          "score": {
+            "robot1": 1
+          }
+        }
+      ]
+    },
+    "41": {
+      "possessor": null,
+      "ball_pos": [
+        455,
+        1015
+      ],
+      "ball_dists": {
+        "robot1": 701.9
+      },
+      "velocities": {
+        "robot1": 36.1,
+        "ball": 6471.9
+      },
+      "events": []
+    },
+    "42": {
+      "possessor": null,
+      "ball_pos": [
+        412,
+        976
+      ],
+      "ball_dists": {
+        "robot1": 665.3
+      },
+      "velocities": {
+        "robot1": 126.5,
+        "ball": 580.5
+      },
+      "events": []
+    },
+    "43": {
+      "possessor": null,
+      "ball_pos": [
+        362,
+        948
+      ],
+      "ball_dists": {
+        "robot1": 628.1
+      },
+      "velocities": {
+        "robot1": 201.2,
+        "ball": 573.1
+      },
+      "events": []
+    },
+    "44": {
+      "possessor": null,
+      "ball_pos": [
+        148,
+        164
+      ],
+      "ball_dists": {
+        "robot1": 271.0
+      },
+      "velocities": {
+        "robot1": 198.0,
+        "ball": 8126.8
+      },
+      "events": []
+    },
+    "45": {
+      "possessor": null,
+      "ball_pos": [
+        146,
+        163
+      ],
+      "ball_dists": {
+        "robot1": 283.2
+      },
+      "velocities": {
+        "robot1": 192.4,
+        "ball": 22.4
+      },
+      "events": []
+    },
+    "46": {
+      "possessor": null,
+      "ball_pos": [
+        147,
+        163
+      ],
+      "ball_dists": {
+        "robot1": 298.7
+      },
+      "velocities": {
+        "robot1": 162.8,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "47": {
+      "possessor": null,
+      "ball_pos": [
+        147,
+        163
+      ],
+      "ball_dists": {
+        "robot1": 314.6
+      },
+      "velocities": {
+        "robot1": 170.9,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "48": {
+      "possessor": null,
+      "ball_pos": [
+        146,
+        163
+      ],
+      "ball_dists": {
+        "robot1": 344.6
+      },
+      "velocities": {
+        "robot1": 370.1,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "49": {
+      "possessor": null,
+      "ball_pos": [
+        311,
+        73
+      ],
+      "ball_dists": {
+        "robot1": 333.2
+      },
+      "velocities": {
+        "robot1": 400.1,
+        "ball": 1879.5
+      },
+      "events": []
+    },
+    "50": {
+      "possessor": null,
+      "ball_pos": [
+        310,
+        73
+      ],
+      "ball_dists": {
+        "robot1": 339.8
+      },
+      "velocities": {
+        "robot1": 225.6,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "51": {
+      "possessor": null,
+      "ball_pos": [
+        147,
+        163
+      ],
+      "ball_dists": {
+        "robot1": 389.5
+      },
+      "velocities": {
+        "robot1": 64.0,
+        "ball": 1862.0
+      },
+      "events": []
+    },
+    "52": {
+      "possessor": null,
+      "ball_pos": [
+        150,
+        163
+      ],
+      "ball_dists": {
+        "robot1": 378.0
+      },
+      "velocities": {
+        "robot1": 258.1,
+        "ball": 30.0
+      },
+      "events": []
+    },
+    "53": {
+      "possessor": null,
+      "ball_pos": [
+        152,
+        163
+      ],
+      "ball_dists": {
+        "robot1": 350.1
+      },
+      "velocities": {
+        "robot1": 407.9,
+        "ball": 20.0
+      },
+      "events": [
+        {
+          "type": "shot_on_goal",
+          "frame": 53,
+          "time_s": 5.3,
+          "color": "yellow",
+          "side": "left",
+          "frames_to_goal": 2
+        }
+      ]
+    },
+    "54": {
+      "possessor": null,
+      "ball_pos": [
+        153,
+        162
+      ],
+      "ball_dists": {
+        "robot1": 324.6
+      },
+      "velocities": {
+        "robot1": 591.4,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "55": {
+      "possessor": null,
+      "ball_pos": [
+        154,
+        162
+      ],
+      "ball_dists": {
+        "robot1": 306.1
+      },
+      "velocities": {
+        "robot1": 528.9,
+        "ball": 10.0
+      },
+      "events": []
+    },
+    "56": {
+      "possessor": null,
+      "ball_pos": [
+        155,
+        161
+      ],
+      "ball_dists": {
+        "robot1": 291.9
+      },
+      "velocities": {
+        "robot1": 600.2,
+        "ball": 14.1
+      },
+      "events": []
+    },
+    "57": {
+      "possessor": null,
+      "ball_pos": [
+        322,
+        70
+      ],
+      "ball_dists": {
+        "robot1": 385.3
+      },
+      "velocities": {
+        "robot1": 322.5,
+        "ball": 1901.8
+      },
+      "events": []
+    },
+    "58": {
+      "possessor": null,
+      "ball_pos": [
+        157,
+        159
+      ],
+      "ball_dists": {
+        "robot1": 289.5
+      },
+      "velocities": {
+        "robot1": 10.0,
+        "ball": 1874.7
+      },
+      "events": []
+    },
+    "59": {
+      "possessor": null,
+      "ball_pos": [
+        160,
+        160
+      ],
+      "ball_dists": {
+        "robot1": 287.0
+      },
+      "velocities": {
+        "robot1": 177.2,
+        "ball": 31.6
+      },
+      "events": []
+    }
+  },
+  "summary": {
+    "total_frames": 60,
+    "total_duration_s": 6.0,
+    "fps_analyzed": 10.0,
+    "possession": {
+      "robot1": {
+        "frames": 29,
+        "pct": 48.3
+      },
+      "none": {
+        "frames": 31,
+        "pct": 51.7
+      }
+    },
+    "speed_avg_px_s": {
+      "robot1": 210.8,
+      "ball": 439.6
+    },
+    "distance_px": {
+      "robot1": 1264.6,
+      "ball": 2637.7
+    },
+    "score": {
+      "robot1": 1
+    },
+    "total_events": 3,
+    "events_by_type": {
+      "shot_on_goal": 2,
+      "goal": 1
+    }
+  },
+  "events": [
+    {
+      "type": "shot_on_goal",
+      "frame": 24,
+      "time_s": 2.4,
+      "color": "yellow",
+      "side": "left",
+      "frames_to_goal": 3
+    },
+    {
+      "type": "goal",
+      "frame": 40,
+      "time_s": 4.0,
+      "color": "yellow",
+      "side": "left",
+      "scorer": "robot1",
+      "score": {
+        "robot1": 1
+      }
+    },
+    {
+      "type": "shot_on_goal",
+      "frame": 53,
+      "time_s": 5.3,
+      "color": "yellow",
+      "side": "left",
+      "frames_to_goal": 2
+    }
+  ],
+  "paths": {
+    "robot1": [
+      [
+        763,
+        185
+      ],
+      [
+        757,
+        175
+      ],
+      [
+        731,
+        178
+      ],
+      [
+        700,
+        183
+      ],
+      [
+        682,
+        184
+      ],
+      [
+        674,
+        175
+      ],
+      [
+        655,
+        164
+      ],
+      [
+        628,
+        156
+      ],
+      [
+        599,
+        158
+      ],
+      [
+        567,
+        165
+      ],
+      [
+        550,
+        172
+      ],
+      [
+        553,
+        173
+      ],
+      [
+        568,
+        167
+      ],
+      [
+        593,
+        156
+      ],
+      [
+        616,
+        151
+      ],
+      [
+        624,
+        157
+      ],
+      [
+        622,
+        172
+      ],
+      [
+        610,
+        187
+      ],
+      [
+        592,
+        196
+      ],
+      [
+        575,
+        196
+      ],
+      [
+        560,
+        198
+      ],
+      [
+        553,
+        201
+      ],
+      [
+        550,
+        211
+      ],
+      [
+        551,
+        220
+      ],
+      [
+        543,
+        222
+      ],
+      [
+        528,
+        219
+      ],
+      [
+        514,
+        212
+      ],
+      [
+        503,
+        207
+      ],
+      [
+        496,
+        205
+      ],
+      [
+        501,
+        208
+      ],
+      [
+        510,
+        205
+      ],
+      [
+        530,
+        199
+      ],
+      [
+        554,
+        188
+      ],
+      [
+        562,
+        189
+      ],
+      [
+        547,
+        202
+      ],
+      [
+        513,
+        229
+      ],
+      [
+        469,
+        259
+      ],
+      [
+        429,
+        287
+      ],
+      [
+        411,
+        303
+      ],
+      [
+        403,
+        314
+      ],
+      [
+        405,
+        318
+      ],
+      [
+        403,
+        315
+      ],
+      [
+        391,
+        311
+      ],
+      [
+        373,
+        320
+      ],
+      [
+        359,
+        334
+      ],
+      [
+        356,
+        353
+      ],
+      [
+        367,
+        365
+      ],
+      [
+        383,
+        371
+      ],
+      [
+        420,
+        372
+      ],
+      [
+        460,
+        371
+      ],
+      [
+        482,
+        366
+      ],
+      [
+        477,
+        370
+      ],
+      [
+        456,
+        385
+      ],
+      [
+        416,
+        393
+      ],
+      [
+        360,
+        412
+      ],
+      [
+        309,
+        426
+      ],
+      [
+        250,
+        437
+      ],
+      [
+        218,
+        441
+      ],
+      [
+        218,
+        442
+      ],
+      [
+        235,
+        437
+      ]
+    ],
+    "ball": [
+      [
+        511,
+        262
+      ],
+      [
+        510,
+        261
+      ],
+      [
+        510,
+        260
+      ],
+      [
+        509,
+        259
+      ],
+      [
+        509,
+        259
+      ],
+      [
+        508,
+        257
+      ],
+      [
+        508,
+        256
+      ],
+      [
+        509,
+        256
+      ],
+      [
+        509,
+        256
+      ],
+      [
+        509,
+        255
+      ],
+      [
+        509,
+        254
+      ],
+      [
+        509,
+        253
+      ],
+      [
+        509,
+        252
+      ],
+      [
+        510,
+        251
+      ],
+      [
+        510,
+        250
+      ],
+      [
+        511,
+        249
+      ],
+      [
+        511,
+        248
+      ],
+      [
+        511,
+        247
+      ],
+      [
+        512,
+        246
+      ],
+      [
+        513,
+        245
+      ],
+      [
+        513,
+        244
+      ],
+      [
+        510,
+        243
+      ],
+      [
+        502,
+        250
+      ],
+      [
+        489,
+        258
+      ],
+      [
+        476,
+        265
+      ],
+      [
+        464,
+        273
+      ],
+      [
+        453,
+        280
+      ],
+      [
+        444,
+        287
+      ],
+      [
+        435,
+        292
+      ],
+      [
+        426,
+        298
+      ],
+      [
+        419,
+        303
+      ],
+      [
+        412,
+        308
+      ],
+      [
+        406,
+        313
+      ],
+      [
+        402,
+        317
+      ],
+      [
+        400,
+        321
+      ],
+      [
+        399,
+        323
+      ],
+      [
+        397,
+        324
+      ],
+      [
+        386,
+        331
+      ],
+      [
+        351,
+        353
+      ],
+      [
+        317,
+        372
+      ],
+      [
+        287,
+        390
+      ],
+      [
+        455,
+        1015
+      ],
+      [
+        412,
+        976
+      ],
+      [
+        362,
+        948
+      ],
+      [
+        148,
+        164
+      ],
+      [
+        146,
+        163
+      ],
+      [
+        147,
+        163
+      ],
+      [
+        147,
+        163
+      ],
+      [
+        146,
+        163
+      ],
+      [
+        311,
+        73
+      ],
+      [
+        310,
+        73
+      ],
+      [
+        147,
+        163
+      ],
+      [
+        150,
+        163
+      ],
+      [
+        152,
+        163
+      ],
+      [
+        153,
+        162
+      ],
+      [
+        154,
+        162
+      ],
+      [
+        155,
+        161
+      ],
+      [
+        322,
+        70
+      ],
+      [
+        157,
+        159
+      ],
+      [
+        160,
+        160
+      ]
+    ]
+  }
+}

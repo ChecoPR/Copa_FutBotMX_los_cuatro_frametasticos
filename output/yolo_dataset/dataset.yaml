@@ -1,0 +1,7 @@
+path: /home/uaqfif/Copa_FutBotMX_los_cuatro_frametasticos/output/yolo_dataset
+train: images/train
+val: images/val
+nc: 2
+names:
+- robot
+- ball

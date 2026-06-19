@@ -1,0 +1,44 @@
+{
+  "version": "0.4.36",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "bot",
+      "text": "",
+      "points": [
+        [
+          702.5,
+          279.375
+        ],
+        [
+          840.0,
+          474.375
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "ball",
+      "text": "",
+      "points": [
+        [
+          588.75,
+          964.375
+        ],
+        [
+          660.0,
+          1043.125
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "IMG_9867_f00648.jpg",
+  "imageData": null,
+  "imageHeight": 1080,
+  "imageWidth": 1920
+}

@@ -1,3 +1,6 @@
+# Claude Code (instrucciones locales, no van al repo)
+CLAUDE.md
+
 # Entorno Python
 .venv/
 __pycache__/
@@ -9,12 +12,36 @@ build/
 # Notebooks checkpoints
 .ipynb_checkpoints/
 
-# SAM3 pesos del modelo
+# Pesos de modelos (grandes, no versionables)
 sam3/checkpoints/
 sam3/*.pth
 sam3/*.pt
 *.pth
 *.pt
+
+# ── Salidas del pipeline ──────────────────────────────────────────────────────
+
+# Frames extraídos (regenerables con extract_frames.py)
+output/frames/
+
+# Máscaras binarias SAM3 (regenerables con pipeline.py)
+output/masks/
+
+# Imágenes de debug temporales
+output/debug/*_grid.jpg
+output/debug/*_candidates.jpg
+output/debug/test*.jpg
+
+# Cache de datasets YOLO (regenerable)
+output/yolo_dataset/*.cache
+output/yolo_dataset/images/train.cache
+output/yolo_dataset/images/val.cache
+
+# Resultados de entrenamiento YOLO (artefactos intermedios)
+runs/
+
+# Scratch de investigación
+github-research-output/
 
 # Archivos de sistema
 .DS_Store

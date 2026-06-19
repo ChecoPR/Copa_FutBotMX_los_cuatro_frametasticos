@@ -1,0 +1,95 @@
+{
+  "version": "0.4.36",
+  "flags": {},
+  "shapes": [
+    {
+      "label": "bot",
+      "text": "",
+      "points": [
+        [
+          485.8333333333335,
+          303.74999999999994
+        ],
+        [
+          623.3333333333335,
+          464.16666666666663
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "bot",
+      "text": "",
+      "points": [
+        [
+          785.8333333333335,
+          572.2222222222223
+        ],
+        [
+          899.7222222222222,
+          686.1111111111111
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "bot",
+      "text": "",
+      "points": [
+        [
+          462.2222222222223,
+          1086.111111111111
+        ],
+        [
+          696.9444444444446,
+          1265.2777777777778
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "bot",
+      "text": "",
+      "points": [
+        [
+          844.1666666666667,
+          1181.9444444444446
+        ],
+        [
+          1030.2777777777778,
+          1316.6666666666667
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    },
+    {
+      "label": "ball",
+      "text": "",
+      "points": [
+        [
+          705.2777777777778,
+          802.7777777777778
+        ],
+        [
+          734.4444444444446,
+          829.1666666666667
+        ]
+      ],
+      "group_id": null,
+      "shape_type": "rectangle",
+      "flags": {}
+    }
+  ],
+  "imagePath": "IMG_9808_f01582.jpg",
+  "imageData": null,
+  "imageHeight": 1920,
+  "imageWidth": 1080
+}

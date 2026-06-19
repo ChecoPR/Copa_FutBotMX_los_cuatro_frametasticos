@@ -1,0 +1,25 @@
+{
+  "frame": "output/frames/IMG_9868/00000.jpg",
+  "frame_size": [
+    1920,
+    1080
+  ],
+  "corners_image": {
+    "top_left": [
+      0,
+      134
+    ],
+    "top_right": [
+      1657,
+      0
+    ],
+    "bottom_right": [
+      1919,
+      941
+    ],
+    "bottom_left": [
+      0,
+      821
+    ]
+  }
+}
