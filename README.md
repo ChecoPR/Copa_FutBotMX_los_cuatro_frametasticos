@@ -1,11 +1,5 @@
 # Copa FutBotMX — Los Cuatro Frametásticos
 
-**Categoría:** Profesional · Capítulo Visión por Computadora · Secihti 2026  
-**Deadline:** 19 de junio de 2026 · 23:59 hrs  
-**Equipo:** Los Cuatro Frametásticos
-
----
-
 ## Tabla de contenidos
 
 1. [Resumen del sistema](#1-resumen-del-sistema)
@@ -582,7 +576,3 @@ python scripts/visualize.py topdown \
     --corners   output/field_corners_IMG_9866.json \
     --output    output/viz/IMG_9866/
 ```
-
----
-
-*Última actualización: 2026-06-18*
