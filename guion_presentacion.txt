@@ -1,0 +1,84 @@
+GUION — EXPLICACIÓN TÉCNICA (2 MINUTOS)
+Copa FutBotMX — Los Cuatro Frametásticos
+=========================================
+
+
+[0:00 – 0:18] PROBLEMA Y OBJETIVO
+MOSTRAR: video original sin procesar
+
+El reto es analizar automáticamente partidos de fútbol robótico a partir
+de video crudo grabado con cámara fija en ángulo. El sistema tiene que
+resolver tres problemas simultáneos: detectar objetos visualmente
+idénticos, segmentar un balón pequeño con oclusiones, y proyectar todo
+a una vista cenital para análisis táctico.
+
+
+[0:18 – 0:45] ARQUITECTURA DE DETECCIÓN — YOLO + SAM3
+MOSTRAR: detección frame 0 → tracking frame 3
+
+Usamos un ensamble de dos modelos con roles distintos. Para los robots,
+un YOLOv8 fine-tuned sobre 48 imágenes de robots Zumo: detección rápida
+en cada frame con bounding box y confianza. Para el balón, SAM3 de Meta
+AI: se inicializa con un bounding box en el frame cero y propaga una
+máscara pixel-level automáticamente a través de todo el video. YOLO es
+rápido pero no produce máscaras; SAM3 produce máscaras de alta calidad
+pero necesita inicialización. Combinar los dos nos da lo mejor de cada uno.
+
+
+[0:45 – 1:08] TRACKING ANTI-SWAP
+MOSTRAR: GIF tracked — momento donde los robots se acercan
+
+El problema clásico del tracking de objetos idénticos es el swap de
+identidades cuando se tocan. Lo resolvemos con tres mecanismos en
+cascada: primero, regresión lineal sobre los últimos 12 frames para
+estimar velocidad de cada robot. Segundo, cuando los centroides predichos
+están a menos de 160 píxeles entre sí, congelamos el historial y
+extrapolamos trayectorias desde el snapshot anterior al contacto.
+Tercero, asignación óptima global con el algoritmo húngaro en cada frame.
+El resultado es identidad preservada incluso con oclusión completa.
+
+
+[1:08 – 1:28] HOMOGRAFÍA Y VISTA CENITAL
+MOSTRAR: imagen de corners debug → panel derecho del sidebyside
+
+La cámara está en ángulo de 45 grados, no cenital. Detectamos las cuatro
+esquinas del campo por tres métodos en cascada: líneas blancas con Hough,
+silueta del área verde, y estimación geométrica desde las porterías. Con
+esas cuatro esquinas calculamos una homografía perspectiva con OpenCV que
+proyecta cualquier punto de cámara al canvas de 800 por 540 píxeles.
+Esto corrige la perspectiva y permite hacer análisis espacial
+métricamente correcto.
+
+
+[1:28 – 1:50] ANALYTICS Y DETECCIÓN DE EVENTOS
+MOSTRAR: GIF sidebyside corriendo — HUD con marcador y eventos visibles
+
+Sobre los tracks generamos analytics en tiempo real: posesión por
+proximidad al balón, velocidad y distancia acumulada por odómetría de
+centroides. Los eventos se detectan automáticamente: pases y colisiones
+por cambio de poseedor e IoU de cajas, goles por color HSV con filtro de
+mediana temporal para separar porterías de objetos en movimiento, y tiros
+a gol por extrapolación de trayectoria del balón hasta 18 frames
+adelante. En el video de referencia: dos goles de robot 1, 70.6 por
+ciento de posesión, velocidad pico de 102 píxeles por segundo.
+
+
+[1:50 – 2:00] CIERRE
+MOSTRAR: topdown_panel.png — heatmap, Voronoi, trails y stats
+
+Todo se consolida en un pipeline de cinco etapas orquestadas por un solo
+script de shell, reproducible en cualquier video nuevo con un solo comando.
+
+
+=========================================
+ORDEN DE PANTALLA
+
+0:00  Video crudo original (.MOV sin procesar)
+0:18  output/debug/IMG_9866_autodetect.jpg
+0:28  output/debug/IMG_9866_tracked_frame3.jpg
+0:45  output/gif/IMG_9866_tracked.gif
+1:08  output/debug/IMG_9866_corners_debug.jpg
+1:20  output/gif/IMG_9866_sidebyside.gif
+1:50  output/viz/IMG_9866/topdown_panel.png
+
+Total aprox.: 310 palabras / 2:00 min a ritmo técnico pausado

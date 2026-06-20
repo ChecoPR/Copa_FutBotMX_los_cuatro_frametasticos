@@ -5,6 +5,8 @@
 **Pipeline de visión por computadora para análisis automático de partidos de fútbol robótico.**  
 Detecta robots y balón, construye trayectorias, identifica goles/tiros/pases y genera visualizaciones con estadísticas en tiempo real.
 
+▶ [Ver demostración en Instagram](https://www.instagram.com/reel/DZy8nhAIMFd/?igsh=ZGU3YzJuZG5pcWNn)
+
 </div>
 
 ---
@@ -25,10 +27,9 @@ Detecta robots y balón, construye trayectorias, identifica goles/tiros/pases y 
 
 ### Partidos analizados
 
-| IMG_9866 | IMG_9868 | IMG_9869 |
-|:---:|:---:|:---:|
-| ![](output/gif/IMG_9866_sidebyside.gif) | ![](output/gif/IMG_9868_sidebyside.gif) | ![](output/gif/IMG_9869_sidebyside.gif) |
-| robot1 **70.6%** posesión · **2 goles** | Partido 2 | Partido 3 |
+| IMG_9866 | IMG_9868 |
+|:---:|:---:|
+| ![](output/gif/IMG_9866_sidebyside.gif) | ![](output/gif/IMG_9868_sidebyside.gif) |
 
 </div>
 
