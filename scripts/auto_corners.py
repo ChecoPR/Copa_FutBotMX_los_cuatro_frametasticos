@@ -22,7 +22,6 @@ import argparse
 import json
 import os
 import sys
-from itertools import combinations
 
 import cv2
 import numpy as np
@@ -35,15 +34,25 @@ HSV_YELLOW_HI = np.array([38, 255, 255])
 HSV_BLUE_LO   = np.array([95, 100,  40])
 HSV_BLUE_HI   = np.array([130, 255, 255])
 
-HOUGH_THRESH = 100
-MORPH_K      = 8
-ANGLE_TOL    = 0.20
-N_CANDS      = 6
-FIELD_W      = 800
-FIELD_H      = 540
+MORPH_K       = 8
+FIELD_W       = 800
+FIELD_H       = 540
+EDGE_SNAP_PX  = 12   # si una esquina cae a < N px del borde del frame, se ancla al borde
 
 
 # ── Utilidades ─────────────────────────────────────────────────────────────────
+
+def _snap_corners(corners, W, H, tol=EDGE_SNAP_PX):
+    """Ancla al borde del frame las esquinas que caen dentro de la tolerancia."""
+    out = {}
+    for name, pt in corners.items():
+        x, y = float(pt[0]), float(pt[1])
+        if x < tol:           x = 0.0
+        elif x > W - tol:     x = float(W)
+        if y < tol:           y = 0.0
+        elif y > H - tol:     y = float(H)
+        out[name] = [x, y]
+    return out
 
 def _intersect(r1, t1, r2, t2):
     A = np.array([[np.cos(t1), np.sin(t1)],
@@ -60,23 +69,6 @@ def _order_corners(pts):
     arr = np.array(pts, dtype=np.float32)
     s, d = arr[:, 0] + arr[:, 1], arr[:, 0] - arr[:, 1]
     return arr[np.argmin(s)], arr[np.argmax(d)], arr[np.argmax(s)], arr[np.argmin(d)]
-
-
-def _cluster_lines(lines, tol=ANGLE_TOL):
-    rts = []
-    for r, t in lines[:, 0]:
-        t = float(t) % np.pi
-        r = float(r)
-        rts.append((r, t))
-    clusters = []
-    for r, t in sorted(rts, key=lambda x: x[1]):
-        for cl in clusters:
-            if abs(cl[1][-1] - t) < tol:
-                cl[0].append(r); cl[1].append(t); break
-        else:
-            clusters.append(([r], [t]))
-    return sorted([(np.mean(rs), np.mean(ts), len(rs))
-                   for rs, ts in clusters], key=lambda x: -x[2])
 
 
 def _detect_goal(frame, lo, hi, min_area=2000):
@@ -112,15 +104,15 @@ def _corners_from_green_hull(frame, goal_y, goal_b, verbose=True):
     H, W = frame.shape[:2]
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    # Rango verde del campo (más amplio que el HSV_FIELD de auto_detect)
-    GREEN_LO = np.array([40,  30,  40])
-    GREEN_HI = np.array([95, 255, 255])
+    # Rango verde del campo — amplio para capturar distintos tipos de césped/alfombra
+    GREEN_LO = np.array([35,  20,  30])
+    GREEN_HI = np.array([100, 255, 255])
     mask = cv2.inRange(hsv, GREEN_LO, GREEN_HI)
 
-    # Cerrar huecos (robots, pelota, sombras)
-    k_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (40, 40))
+    # Cerrar huecos (robots, pelota, sombras) con kernel grande
+    k_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (60, 60))
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, k_close)
-    k_open  = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (20, 20))
+    k_open  = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))
     mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, k_open)
 
     cnts, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -188,11 +180,178 @@ def _corners_from_green_hull(frame, goal_y, goal_b, verbose=True):
     return corners, Hm
 
 
+# ── Intento C: estimación geométrica desde porterías ──────────────────────────
+
+def _corners_from_goals_only(frame, goal_y, goal_b, verbose=True):
+    """
+    Último recurso cuando A y B fallan pero sí se detectaron las dos porterías.
+    Las porterías están en los extremos izquierdo/derecho del campo a media altura.
+    Usa ese ancla para estimar las cuatro esquinas del campo.
+    """
+    if not goal_y or not goal_b:
+        return None, None
+
+    H, W = frame.shape[:2]
+
+    # Portería izquierda y derecha
+    if goal_y[0] <= goal_b[0]:
+        left_g, right_g = goal_y, goal_b
+    else:
+        left_g, right_g = goal_b, goal_y
+
+    # La línea horizontal de las porterías define la mitad vertical del campo.
+    # Estimamos que el campo se extiende la misma distancia hacia arriba y abajo.
+    goal_avg_y = (left_g[1] + right_g[1]) / 2
+    half_h     = goal_avg_y * 0.85          # ~85% de la distancia goal→top como mitad campo
+
+    top_y = max(0.0, goal_avg_y - half_h)
+    bot_y = min(float(H), goal_avg_y + half_h * 1.1)
+
+    # Extensión horizontal: un poco más allá de las porterías
+    margin_x = (right_g[0] - left_g[0]) * 0.05
+    left_x  = max(0.0, left_g[0]  - margin_x)
+    right_x = min(float(W), right_g[0] + margin_x)
+
+    tl = [left_x,  top_y]
+    tr = [right_x, top_y]
+    br = [right_x, bot_y]
+    bl = [left_x,  bot_y]
+
+    corners = {"top_left": tl, "top_right": tr, "bottom_right": br, "bottom_left": bl}
+    src = np.float32([tl, tr, br, bl])
+    dst = np.float32([[0, 0], [FIELD_W, 0], [FIELD_W, FIELD_H], [0, FIELD_H]])
+    Hm, _ = cv2.findHomography(src, dst)
+    if Hm is None:
+        return None, None
+
+    if verbose:
+        print("  Intento C OK — estimación geométrica desde porterías")
+    return corners, Hm
+
+
+# ── Intento A: líneas blancas exteriores ───────────────────────────────────────
+
+def _corners_from_outer_white_lines(frame, goal_y, goal_b, verbose=True):
+    """
+    Busca las 4 líneas blancas más exteriores del campo (borde del rectángulo).
+
+    Estrategia:
+    1. Máscara verde del campo → dilatar para incluir las líneas del borde.
+    2. Máscara blanca restringida a esa zona (evita líneas de paredes/marcadores).
+    3. HoughLines con umbral bajo (líneas gruesas son fáciles de detectar).
+    4. Clasificar como horizontal/vertical según ángulo.
+    5. Elegir la más exterior en cada dirección → 4 líneas → 4 esquinas.
+    """
+    H, W = frame.shape[:2]
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # Campo verde — rango amplio
+    GREEN_LO = np.array([35, 20, 30])
+    GREEN_HI = np.array([100, 255, 255])
+    green = cv2.inRange(hsv, GREEN_LO, GREEN_HI)
+    k_g   = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (50, 50))
+    green_adj = cv2.dilate(green, k_g)   # dilatar para incluir líneas blancas del borde
+
+    # Máscara blanca restringida a zona verde-adyacente
+    white = cv2.inRange(hsv, HSV_WHITE_LO, HSV_WHITE_HI)
+    k_w   = cv2.getStructuringElement(cv2.MORPH_RECT, (MORPH_K, MORPH_K))
+    white = cv2.morphologyEx(white, cv2.MORPH_CLOSE, k_w)
+    white_field = cv2.bitwise_and(white, green_adj)
+
+    # Fallback: si no hay suficiente blanco en el campo, usar máscara global
+    if cv2.countNonZero(white_field) < 300:
+        if verbose:
+            print("  Intento A: pocos píxeles blancos en campo → usando máscara global")
+        white_field = white
+
+    lines = cv2.HoughLines(white_field, 1, np.pi / 180, threshold=60)
+    if lines is None or len(lines) < 4:
+        if verbose:
+            n = len(lines) if lines is not None else 0
+            print(f"  Intento A: pocas líneas detectadas ({n})")
+        return None, None
+
+    if verbose:
+        print(f"  Intento A: {len(lines)} líneas detectadas en zona blanca-verde")
+
+    # Clasificar en horizontales / verticales y calcular posición real en el frame
+    # Ecuación de la línea: x·cos(θ) + y·sin(θ) = ρ
+    # — θ ≈ 0 o π  → línea casi vertical   → posición en x al centro vertical del frame
+    # — θ ≈ π/2    → línea casi horizontal  → posición en y al centro horizontal del frame
+    ANGLE_TOL = 0.40   # radianes (~23°)
+    verticals   = []   # (x_at_center, rho, theta)
+    horizontals = []   # (y_at_center, rho, theta)
+
+    for r, t in lines[:, 0]:
+        t = float(t) % np.pi
+        r = float(r)
+        if t < ANGLE_TOL or t > np.pi - ANGLE_TOL:
+            cos_t = np.cos(t)
+            if abs(cos_t) > 0.1:
+                x_mid = (r - (H / 2) * np.sin(t)) / cos_t
+                verticals.append((x_mid, r, t))
+        elif abs(t - np.pi / 2) < ANGLE_TOL:
+            sin_t = np.sin(t)
+            if abs(sin_t) > 0.1:
+                y_mid = (r - (W / 2) * np.cos(t)) / sin_t
+                horizontals.append((y_mid, r, t))
+
+    if len(verticals) < 2 or len(horizontals) < 2:
+        if verbose:
+            print(f"  Intento A: no suficientes líneas clasificadas "
+                  f"({len(verticals)} vert, {len(horizontals)} horiz)")
+        return None, None
+
+    # Líneas más exteriores en cada dirección
+    left_v  = min(verticals,   key=lambda v: v[0])
+    right_v = max(verticals,   key=lambda v: v[0])
+    top_h   = min(horizontals, key=lambda v: v[0])
+    bot_h   = max(horizontals, key=lambda v: v[0])
+
+    if verbose:
+        print(f"  Intento A: izq_x≈{left_v[0]:.0f}  der_x≈{right_v[0]:.0f}  "
+              f"top_y≈{top_h[0]:.0f}  bot_y≈{bot_h[0]:.0f}")
+
+    tl = _intersect(left_v[1],  left_v[2],  top_h[1], top_h[2])
+    tr = _intersect(right_v[1], right_v[2], top_h[1], top_h[2])
+    br = _intersect(right_v[1], right_v[2], bot_h[1], bot_h[2])
+    bl = _intersect(left_v[1],  left_v[2],  bot_h[1], bot_h[2])
+
+    if not all([tl, tr, br, bl]):
+        if verbose:
+            print("  Intento A: no se pudieron calcular intersecciones")
+        return None, None
+
+    src = np.float32([tl, tr, br, bl])
+    if cv2.contourArea(src) < 5000:
+        if verbose:
+            print("  Intento A: cuadrilátero demasiado pequeño")
+        return None, None
+
+    dst   = np.float32([[0, 0], [FIELD_W, 0], [FIELD_W, FIELD_H], [0, FIELD_H]])
+    Hm, _ = cv2.findHomography(src, dst)
+    if Hm is None:
+        return None, None
+
+    if goal_y and goal_b and verbose:
+        def _proj(pt):
+            return cv2.perspectiveTransform(np.float32([[[pt[0], pt[1]]]]), Hm)[0][0]
+        py, pb = _proj(goal_y), _proj(goal_b)
+        print(f"  Intento A: portería_y→canvas={py.astype(int)}  portería_b→canvas={pb.astype(int)}")
+
+    corners = {
+        "top_left":     list(tl), "top_right":    list(tr),
+        "bottom_right": list(br), "bottom_left":  list(bl),
+    }
+    if verbose:
+        print("  Intento A OK — líneas blancas exteriores")
+    return corners, Hm
+
+
 # ── Detección de corners ────────────────────────────────────────────────────────
 
 def find_corners(frame, verbose=True):
     H, W = frame.shape[:2]
-    hsv  = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     goal_y = _detect_goal(frame, HSV_YELLOW_LO, HSV_YELLOW_HI)
     goal_b = _detect_goal(frame, HSV_BLUE_LO,   HSV_BLUE_HI)
@@ -200,95 +359,73 @@ def find_corners(frame, verbose=True):
         print(f"  Portería amarilla: {goal_y}")
         print(f"  Portería azul    : {goal_b}")
 
-    white = cv2.inRange(hsv, HSV_WHITE_LO, HSV_WHITE_HI)
-    k     = cv2.getStructuringElement(cv2.MORPH_RECT, (MORPH_K, MORPH_K))
-    white = cv2.morphologyEx(white, cv2.MORPH_CLOSE, k)
-    edges = cv2.Canny(white, 50, 150)
-    lines = cv2.HoughLines(edges, 1, np.pi / 180, threshold=HOUGH_THRESH)
+    # ── Intento A: líneas blancas exteriores ──────────────────────────────────
+    best_corners, best_H = _corners_from_outer_white_lines(frame, goal_y, goal_b, verbose)
 
-    clusters = []
-    if lines is not None and len(lines) >= 4:
-        clusters = _cluster_lines(lines)
-        if verbose:
-            print(f"  {len(lines)} líneas → {len(clusters)} clusters:")
-            for r, t, n in clusters[:8]:
-                print(f"    rho={r:7.1f}  theta={np.degrees(t):6.1f}°  n={n}")
-
-    best_score, best_corners, best_H = -1e9, None, None
-
-    # ── Intento A: combinaciones de 4 líneas ──────────────────────────────────
-    top_n = clusters[:N_CANDS]
-    for four in combinations(range(len(top_n)), 4):
-        lines4 = [top_n[i] for i in four]
-        angles = [l[1] for l in lines4]
-
-        # Descartar si hay líneas casi paralelas (diff < 15°)
-        skip = any(
-            np.degrees(min(abs(angles[i] - angles[j]),
-                           np.pi - abs(angles[i] - angles[j]))) < 15.0
-            for i in range(4) for j in range(i + 1, 4)
-        )
-        if skip:
-            continue
-
-        pts = [p for i in range(4) for j in range(i + 1, 4)
-               if (p := _intersect(lines4[i][0], lines4[i][1],
-                                   lines4[j][0], lines4[j][1]))]
-        if len(pts) < 4:
-            continue
-
-        arr  = np.array(pts, dtype=np.float32)
-        hull = cv2.convexHull(arr).reshape(-1, 2)
-        if len(hull) < 4:
-            continue
-
-        sums, difs = hull[:, 0] + hull[:, 1], hull[:, 0] - hull[:, 1]
-        idxs = sorted(set(map(int, [np.argmin(sums), np.argmax(sums),
-                                    np.argmax(difs),  np.argmin(difs)])))
-        if len(idxs) < 4:
-            continue
-        hull = hull[idxs]
-
-        tl, tr, br, bl = _order_corners(hull)
-        src = np.float32([tl, tr, br, bl])
-        if cv2.contourArea(src) < 5000:
-            continue
-
-        dst   = np.float32([[0,0],[FIELD_W,0],[FIELD_W,FIELD_H],[0,FIELD_H]])
-        Hm, _ = cv2.findHomography(src, dst)
-        if Hm is None:
-            continue
-
-        if goal_y and goal_b:
-            def _proj(pt, Hm=Hm):
-                return cv2.perspectiveTransform(
-                    np.float32([[[pt[0], pt[1]]]]), Hm)[0][0]
-            py, pb = _proj(goal_y), _proj(goal_b)
-            M  = 300
-            ok = (-M < py[0] < FIELD_W+M and -M < py[1] < FIELD_H+M and
-                  -M < pb[0] < FIELD_W+M and -M < pb[1] < FIELD_H+M)
-            dx = float(py[0]) - float(pb[0])
-            score = dx if (ok and dx > 0) else -1e9
-        else:
-            score = cv2.contourArea(src)
-
-        if score > best_score:
-            best_score = score
-            best_corners = {k: v.tolist() for k, v in
-                            zip(["top_left","top_right","bottom_right","bottom_left"],
-                                [tl, tr, br, bl])}
-            best_H = Hm
-
-    # ── Intento B: silueta del área verde (contorno del campo) ───────────────────
+    # ── Intento B: silueta del área verde ────────────────────────────────────
     if best_corners is None:
         if verbose:
             print("  Intento A falló → Intento B: silueta del área verde")
         best_corners, best_H = _corners_from_green_hull(frame, goal_y, goal_b, verbose)
 
+    # ── Intento C: estimación geométrica desde porterías ─────────────────────
+    if best_corners is None:
+        if verbose:
+            print("  Intento B falló → Intento C: estimación desde porterías")
+        best_corners, best_H = _corners_from_goals_only(frame, goal_y, goal_b, verbose)
+
     if best_corners is None:
         print("  ERROR: no se pudo determinar las esquinas.")
+        return None, None, (goal_y, goal_b)
+
+    # Anclar al borde del frame las esquinas que caen dentro de la tolerancia
+    best_corners = _snap_corners(best_corners, W, H)
+
+    # Recalcular homografía con las esquinas definitivas (post-snap)
+    order = ["top_left", "top_right", "bottom_right", "bottom_left"]
+    src   = np.float32([best_corners[k] for k in order])
+    dst   = np.float32([[0, 0], [FIELD_W, 0], [FIELD_W, FIELD_H], [0, FIELD_H]])
+    best_H, _ = cv2.findHomography(src, dst)
 
     return best_corners, best_H, (goal_y, goal_b)
+
+
+# ── Cuadrícula de coordenadas (helper para selección manual) ───────────────────
+
+def draw_coord_grid(frame, out_path, step=100):
+    """
+    Genera una imagen con cuadrícula de coordenadas cada STEP píxeles.
+    Útil para identificar visualmente las esquinas del campo.
+    Abre en Windows con:  explorer.exe "$(wslpath -w <ruta>)"
+    """
+    H, W = frame.shape[:2]
+    vis  = frame.copy()
+
+    for x in range(0, W + 1, step):
+        color = (0, 200, 200) if x % 500 == 0 else (80, 80, 80)
+        thick = 2              if x % 500 == 0 else 1
+        cv2.line(vis, (x, 0), (x, H), color, thick)
+        if x % 200 == 0 and x > 0:
+            cv2.putText(vis, str(x), (x + 3, 20),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 220, 220), 2, cv2.LINE_AA)
+
+    for y in range(0, H + 1, step):
+        color = (0, 200, 200) if y % 500 == 0 else (80, 80, 80)
+        thick = 2              if y % 500 == 0 else 1
+        cv2.line(vis, (0, y), (W, y), color, thick)
+        if y % 200 == 0 and y > 0:
+            cv2.putText(vis, str(y), (6, y + 16),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 220, 220), 2, cv2.LINE_AA)
+
+    # Etiqueta de origen
+    cv2.putText(vis, "0,0", (4, 18),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 220, 220), 2, cv2.LINE_AA)
+
+    os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
+    cv2.imwrite(out_path, vis)
+    abs_path = os.path.abspath(out_path)
+    print(f"  Cuadricula: {out_path}")
+    print(f"  Ver en Windows: explorer.exe \"$(wslpath -w {abs_path})\"")
 
 
 # ── Imagen de debug ────────────────────────────────────────────────────────────
@@ -352,12 +489,34 @@ def draw_debug(frame, corners, H_mat, goals, out_path):
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
 
+def _parse_pt(s, name):
+    try:
+        x, y = s.split(",")
+        return [float(x.strip()), float(y.strip())]
+    except Exception:
+        print(f"ERROR: formato inválido para {name}: '{s}'  (usa x,y  ej: 208,620)")
+        sys.exit(1)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--frame", required=True)
-    parser.add_argument("--out",   default="output/field_corners.json")
-    parser.add_argument("--debug", default="")
+    parser.add_argument("--frame", required=True,
+                        help="Frame del video (JPG/PNG)")
+    parser.add_argument("--out",   default="output/field_corners.json",
+                        help="JSON de salida")
+    parser.add_argument("--debug", default="",
+                        help="Imagen de debug (default: <out>_debug.jpg)")
+    parser.add_argument("--grid",  default="",
+                        help="Genera imagen con cuadrícula de coordenadas para selección manual")
+    parser.add_argument("--tl", default="", metavar="x,y",
+                        help="Top-left  manual (modo sin detección automática)")
+    parser.add_argument("--tr", default="", metavar="x,y",
+                        help="Top-right manual")
+    parser.add_argument("--br", default="", metavar="x,y",
+                        help="Bottom-right manual")
+    parser.add_argument("--bl", default="", metavar="x,y",
+                        help="Bottom-left manual")
     args = parser.parse_args()
 
     frame = cv2.imread(args.frame)
@@ -367,15 +526,70 @@ def main():
     H, W = frame.shape[:2]
     print(f"Frame: {args.frame}  ({W}×{H})")
 
-    corners, H_mat, goals = find_corners(frame, verbose=True)
-    if corners is None:
-        sys.exit(1)
+    # ── Cuadrícula de coordenadas (solo genera imagen, no modifica JSON) ──────
+    if args.grid:
+        draw_coord_grid(frame, args.grid)
+        if not any([args.tl, args.tr, args.br, args.bl]):
+            print("\nAbre la imagen de cuadricula en Windows, identifica las 4 esquinas")
+            print("del campo y vuelve a ejecutar con:")
+            print(f"  python scripts/auto_corners.py --frame {args.frame} \\")
+            print(f"      --tl X,Y --tr X,Y --br X,Y --bl X,Y \\")
+            print(f"      --out {args.out}")
+            return
 
+    # ── Modo manual: 4 esquinas especificadas por CLI ─────────────────────────
+    manual_pts = [args.tl, args.tr, args.br, args.bl]
+    if any(manual_pts):
+        missing = [n for n, v in zip(["--tl","--tr","--br","--bl"], manual_pts) if not v]
+        if missing:
+            print(f"ERROR: modo manual requiere los 4 puntos. Falta: {missing}")
+            sys.exit(1)
+
+        corners = {
+            "top_left":     _parse_pt(args.tl, "--tl"),
+            "top_right":    _parse_pt(args.tr, "--tr"),
+            "bottom_right": _parse_pt(args.br, "--br"),
+            "bottom_left":  _parse_pt(args.bl, "--bl"),
+        }
+        corners  = _snap_corners(corners, W, H)
+        order    = ["top_left", "top_right", "bottom_right", "bottom_left"]
+        src      = np.float32([corners[k] for k in order])
+        dst      = np.float32([[0,0],[FIELD_W,0],[FIELD_W,FIELD_H],[0,FIELD_H]])
+        H_mat, _ = cv2.findHomography(src, dst)
+        goals    = (_detect_goal(frame, HSV_YELLOW_LO, HSV_YELLOW_HI),
+                    _detect_goal(frame, HSV_BLUE_LO,   HSV_BLUE_HI))
+        print("Modo manual — esquinas especificadas por CLI")
+
+    # ── Modo automático ───────────────────────────────────────────────────────
+    else:
+        corners, H_mat, goals = find_corners(frame, verbose=True)
+        if corners is None:
+            abs_frame = os.path.abspath(args.frame)
+            grid_path = args.out.replace(".json", "_grid.jpg")
+            print(f"\nDeteccion automatica fallida.")
+            print(f"\nPaso 1 — genera la cuadricula de coordenadas:")
+            print(f"  python scripts/auto_corners.py --frame {args.frame} --grid {grid_path}")
+            print(f"  explorer.exe \"$(wslpath -w {os.path.abspath(grid_path)})\"")
+            print(f"\nPaso 2 — especifica las esquinas manualmente:")
+            print(f"  python scripts/auto_corners.py --frame {args.frame} \\")
+            print(f"      --tl X,Y --tr X,Y --br X,Y --bl X,Y \\")
+            print(f"      --out {args.out}")
+            sys.exit(1)
+
+    # ── Imprimir y guardar resultado ──────────────────────────────────────────
     print("\nEsquinas:")
     for name, pt in corners.items():
         in_f = (0 <= pt[0] <= W and 0 <= pt[1] <= H)
         print(f"  {name:14s}: ({int(pt[0]):6d}, {int(pt[1]):6d})"
               f"  {'✓' if in_f else '⚠ extrapolado'}")
+
+    if H_mat is not None and goals[0] and goals[1]:
+        def _proj(pt):
+            return cv2.perspectiveTransform(np.float32([[[pt[0],pt[1]]]]), H_mat)[0][0]
+        py, pb = _proj(goals[0]), _proj(goals[1])
+        print(f"\nValidacion porterias → canvas cenital:")
+        print(f"  Amarilla: ({int(py[0])}, {int(py[1])})")
+        print(f"  Azul:     ({int(pb[0])}, {int(pb[1])})")
 
     result = {
         "frame":         args.frame,
@@ -385,7 +599,7 @@ def main():
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
     with open(args.out, "w") as f:
         json.dump(result, f, indent=2)
-    print(f"Guardado: {args.out}")
+    print(f"\nGuardado: {args.out}")
 
     debug = args.debug or args.out.replace(".json", "_debug.jpg")
     draw_debug(frame, corners, H_mat, goals, debug)

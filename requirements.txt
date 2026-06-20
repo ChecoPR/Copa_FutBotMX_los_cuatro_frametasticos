@@ -1,0 +1,10 @@
+# PyTorch debe instalarse por separado con el índice de CUDA correspondiente.
+# Consulta https://pytorch.org/get-started/locally/ para tu versión de CUDA.
+# Ejemplo CUDA 12.6:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
+
+ultralytics>=8.3
+opencv-python>=4.9
+scipy>=1.12
+numpy>=1.26
+matplotlib>=3.8

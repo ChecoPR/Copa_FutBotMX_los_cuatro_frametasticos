@@ -119,11 +119,12 @@
       },
       "events": [
         {
-          "type": "pass",
+          "type": "interception",
           "frame": 6,
           "time_s": 0.6,
           "from": "robot2",
-          "to": "robot1"
+          "to": "robot1",
+          "robot_dist": 198.6
         }
       ]
     },
@@ -1688,7 +1689,7 @@
     },
     "total_events": 6,
     "events_by_type": {
-      "pass": 1,
+      "interception": 1,
       "collision": 1,
       "shot_on_goal": 2,
       "goal": 2
@@ -1696,11 +1697,12 @@
   },
   "events": [
     {
-      "type": "pass",
+      "type": "interception",
       "frame": 6,
       "time_s": 0.6,
       "from": "robot2",
-      "to": "robot1"
+      "to": "robot1",
+      "robot_dist": 198.6
     },
     {
       "type": "collision",

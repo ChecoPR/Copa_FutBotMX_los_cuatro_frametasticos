@@ -291,9 +291,11 @@ def track_robots_yolo(frame_paths: list, yolo_model) -> dict:
 # Sesión SAM3 para un objeto
 # ---------------------------------------------------------------------------
 
-def run_sam3_session(predictor, frames_dir: str, box_norm: list, label: str) -> dict:
+def run_sam3_session(predictor, frames_dir: str, box_norm: list, label: str,
+                     init_frame: int = 0) -> dict:
     """
     Corre una sesión SAM3 completa para un objeto (VG + propagación).
+    init_frame: índice del frame donde inicializar el prompt (default 0).
     Retorna {fidx: {"mask": np.ndarray|None, "score": float, "label": str}}
     """
     session_id = predictor.handle_request({
@@ -301,7 +303,7 @@ def run_sam3_session(predictor, frames_dir: str, box_norm: list, label: str) -> 
     })["session_id"]
 
     predictor.handle_request({
-        "type": "add_prompt", "session_id": session_id, "frame_index": 0,
+        "type": "add_prompt", "session_id": session_id, "frame_index": init_frame,
         "bounding_boxes": [box_norm], "bounding_box_labels": [1],
     })
 
@@ -385,6 +387,8 @@ def run_pipeline(
     auto: bool = False,
     no_yolo: bool = False,
     sam3_robots: bool = False,
+    ball_point: tuple = None,
+    ball_frame: int = 0,
 ):
     frame_paths = get_frame_paths(frames_dir)
     if not frame_paths:
@@ -426,8 +430,16 @@ def run_pipeline(
     robot_dets_f0 = [d for d in detections_f0 if d["label"] != "ball"]
     ball_dets_f0  = [d for d in detections_f0 if d["label"] == "ball"]
 
+    # --ball_point sobreescribe cualquier detección automática del balón
+    if ball_point:
+        cx, cy = ball_point
+        hw = 40 / frame_W
+        hh = 40 / frame_H
+        ball_dets_f0 = [{"label": "ball", "cx": int(cx), "cy": int(cy),
+                         "box_xyxy": [int(cx-40), int(cy-40), int(cx+40), int(cy+40)]}]
+        print(f"[ball_point] Balón forzado en frame {ball_frame}: ({cx}, {cy})")
+
     # ── Salida unificada: {fidx: {label: obj_data}} ───────────────────────
-    # (cambia la clave de obj_id numérico a label string — más limpio)
     outputs_per_frame = {fidx: {} for fidx in range(len(frame_paths))}
 
     # ── SAM3 para la PELOTA ───────────────────────────────────────────────
@@ -445,8 +457,9 @@ def run_pipeline(
             box_norm = [max(0., cx/frame_W - hw), max(0., cy/frame_H - hh),
                         min(2*hw, 1.0), min(2*hh, 1.0)]
 
-        print(f"\n[SAM3] Pelota  box={[round(v,3) for v in box_norm]}")
-        ball_session = run_sam3_session(predictor, frames_dir, box_norm, "ball")
+        print(f"\n[SAM3] Pelota  frame={ball_frame}  box={[round(v,3) for v in box_norm]}")
+        ball_session = run_sam3_session(predictor, frames_dir, box_norm, "ball",
+                                        init_frame=ball_frame)
         for fidx, data in ball_session.items():
             outputs_per_frame[fidx]["ball"] = data
         print(f"  → {len(ball_session)} frames propagados")
@@ -621,6 +634,10 @@ def main():
                         help="Con --auto, usa solo HSV (sin YOLO)")
     parser.add_argument("--sam3_robots", action="store_true",
                         help="Agregar sesión SAM3 para robot1 (además de la pelota)")
+    parser.add_argument("--ball_point", default="",
+                        help="Coordenadas manuales del balón: x,y  (se puede combinar con --auto)")
+    parser.add_argument("--ball_frame", type=int, default=0,
+                        help="Frame de inicialización del balón para SAM3 (default 0)")
     args = parser.parse_args()
 
     text_prompts  = [p.strip() for p in args.prompts.split(",") if p.strip()]
@@ -628,13 +645,22 @@ def main():
 
     if args.auto and (text_prompts or point_prompts):
         parser.error("--auto no se combina con --prompts / --point_prompts")
-    if not args.auto and not text_prompts and not point_prompts:
+    if not args.auto and not text_prompts and not point_prompts and not args.ball_point:
         parser.error("Especifica --auto, --prompts, o --point_prompts")
+
+    ball_point = None
+    if args.ball_point:
+        try:
+            bx, by = args.ball_point.split(",")
+            ball_point = (float(bx), float(by))
+        except ValueError:
+            parser.error("--ball_point debe ser x,y  (ej: 1085,267)")
 
     run_pipeline(
         args.frames_dir, text_prompts, point_prompts, args.output_dir, args.fps,
         verify=args.verify, auto=args.auto, no_yolo=args.no_yolo,
         sam3_robots=args.sam3_robots,
+        ball_point=ball_point, ball_frame=args.ball_frame,
     )
 
 

@@ -1,0 +1,1723 @@
+{
+  "frames": {
+    "0": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 0.0,
+        "robot2": 0.0,
+        "robot3": 0.0,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 0,
+          "time_s": 0.0,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.094
+        }
+      ]
+    },
+    "1": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1369.5,
+        "robot2": 1165.0,
+        "robot3": 725.6,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "2": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1520.9,
+        "robot2": 1476.1,
+        "robot3": 827.6,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "3": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1530.3,
+        "robot2": 1734.0,
+        "robot3": 1146.3,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "4": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1766.2,
+        "robot2": 1471.2,
+        "robot3": 1292.4,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "5": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2163.3,
+        "robot2": 2200.7,
+        "robot3": 1800.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "6": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 600.7,
+        "robot2": 2802.2,
+        "robot3": 2307.7,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 6,
+          "time_s": 0.2,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.052
+        }
+      ]
+    },
+    "7": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1146.3,
+        "robot2": 1524.1,
+        "robot3": 1397.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "8": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 524.8,
+        "robot2": 465.7,
+        "robot3": 331.4,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "9": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1224.1,
+        "robot2": 872.1,
+        "robot3": 865.3,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 9,
+          "time_s": 0.3,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.068
+        }
+      ]
+    },
+    "10": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1389.7,
+        "robot2": 902.5,
+        "robot3": 789.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "11": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 297.0,
+        "robot2": 300.0,
+        "robot3": 276.6,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "12": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1391.7,
+        "robot2": 730.5,
+        "robot3": 664.1,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 12,
+          "time_s": 0.4,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.061
+        }
+      ]
+    },
+    "13": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1214.9,
+        "robot2": 1230.0,
+        "robot3": 408.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "14": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 123.7,
+        "robot2": 547.4,
+        "robot3": 494.8,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "15": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 182.5,
+        "robot2": 948.7,
+        "robot3": 759.5,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 15,
+          "time_s": 0.5,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.051
+        }
+      ]
+    },
+    "16": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 632.9,
+        "robot2": 1761.8,
+        "robot3": 998.6,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "17": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1292.4,
+        "robot2": 1933.3,
+        "robot3": 840.5,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "18": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1902.3,
+        "robot2": 1588.6,
+        "robot3": 1965.4,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "19": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1462.6,
+        "robot2": 1524.1,
+        "robot3": 2359.3,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "20": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 902.0,
+        "robot2": 960.5,
+        "robot3": 1127.7,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "21": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 94.9,
+        "robot2": 492.0,
+        "robot3": 90.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "22": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 836.8,
+        "robot2": 968.4,
+        "robot3": 1087.1,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "23": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1576.6,
+        "robot2": 1530.3,
+        "robot3": 1816.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "24": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2121.7,
+        "robot2": 1693.1,
+        "robot3": 2547.9,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "25": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2363.2,
+        "robot2": 1994.5,
+        "robot3": 3034.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "26": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1798.0,
+        "robot2": 2406.7,
+        "robot3": 3238.1,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "27": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 708.0,
+        "robot2": 2757.7,
+        "robot3": 3759.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "28": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 268.3,
+        "robot2": 2971.2,
+        "robot3": 3363.3,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "29": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1024.0,
+        "robot2": 2791.5,
+        "robot3": 1281.6,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "30": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1412.2,
+        "robot2": 1556.0,
+        "robot3": 690.7,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "31": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1831.0,
+        "robot2": 1081.7,
+        "robot3": 1371.2,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 31,
+          "time_s": 1.03,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.092
+        }
+      ]
+    },
+    "32": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1860.0,
+        "robot2": 469.6,
+        "robot3": 270.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "33": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1548.4,
+        "robot2": 815.0,
+        "robot3": 551.5,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "34": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1210.8,
+        "robot2": 1677.1,
+        "robot3": 1041.4,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 34,
+          "time_s": 1.13,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.103
+        }
+      ]
+    },
+    "35": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1947.0,
+        "robot2": 2787.4,
+        "robot3": 1745.4,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "36": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2508.0,
+        "robot2": 3560.9,
+        "robot3": 1559.1,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "37": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2490.2,
+        "robot2": 2504.6,
+        "robot3": 757.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "38": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2227.5,
+        "robot2": 1242.0,
+        "robot3": 313.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "39": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2227.3,
+        "robot2": 646.2,
+        "robot3": 579.4,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "40": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1924.0,
+        "robot2": 876.2,
+        "robot3": 484.7,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "41": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 2160.8,
+        "robot2": 1772.3,
+        "robot3": 1068.3,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "42": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1612.8,
+        "robot2": 2801.7,
+        "robot3": 1073.3,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 42,
+          "time_s": 1.4,
+          "robots": [
+            "robot1",
+            "robot3"
+          ],
+          "iou": 0.054
+        }
+      ]
+    },
+    "43": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1518.2,
+        "robot2": 3481.2,
+        "robot3": 2044.6,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 43,
+          "time_s": 1.43,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.089
+        }
+      ]
+    },
+    "44": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 488.4,
+        "robot2": 3963.0,
+        "robot3": 0.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "45": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 863.8,
+        "robot2": 3060.6,
+        "robot3": 0.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "46": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1290.3,
+        "robot2": 1851.5,
+        "robot3": 4307.7,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "47": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1465.4,
+        "robot2": 390.0,
+        "robot3": 400.2,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 47,
+          "time_s": 1.57,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.065
+        }
+      ]
+    },
+    "48": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1647.5,
+        "robot2": 658.0,
+        "robot3": 335.4,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "49": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1805.0,
+        "robot2": 1179.6,
+        "robot3": 873.6,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "50": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1615.5,
+        "robot2": 67.1,
+        "robot3": 361.2,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 50,
+          "time_s": 1.67,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.095
+        }
+      ]
+    },
+    "51": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 986.8,
+        "robot2": 745.2,
+        "robot3": 1812.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "52": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1369.5,
+        "robot2": 807.8,
+        "robot3": 1006.2,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "53": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1309.7,
+        "robot2": 192.1,
+        "robot3": 305.9,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "54": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1295.2,
+        "robot2": 624.3,
+        "robot3": 1343.3,
+        "ball": 0.0
+      },
+      "events": [
+        {
+          "type": "collision",
+          "frame": 54,
+          "time_s": 1.8,
+          "robots": [
+            "robot2",
+            "robot3"
+          ],
+          "iou": 0.095
+        }
+      ]
+    },
+    "55": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1231.5,
+        "robot2": 1092.0,
+        "robot3": 1415.1,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "56": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1435.6,
+        "robot2": 1491.9,
+        "robot3": 975.8,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "57": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 1116.5,
+        "robot2": 1667.1,
+        "robot3": 1805.0,
+        "ball": 0.0
+      },
+      "events": []
+    },
+    "58": {
+      "possessor": null,
+      "ball_pos": null,
+      "ball_dists": {},
+      "velocities": {
+        "robot1": 30.0,
+        "robot2": 758.9,
+        "robot3": 1798.0,
+        "ball": 0.0
+      },
+      "events": []
+    }
+  },
+  "summary": {
+    "total_frames": 59,
+    "total_duration_s": 2.0,
+    "fps_analyzed": 30.0,
+    "possession": {
+      "robot1": {
+        "frames": 0,
+        "pct": 0.0
+      },
+      "robot2": {
+        "frames": 0,
+        "pct": 0.0
+      },
+      "robot3": {
+        "frames": 0,
+        "pct": 0.0
+      },
+      "none": {
+        "frames": 59,
+        "pct": 100.0
+      }
+    },
+    "speed_avg_px_s": {
+      "robot1": 1319.6,
+      "robot2": 1484.2,
+      "robot3": 1218.4,
+      "ball": 0.0
+    },
+    "distance_px": {
+      "robot1": 2595.3,
+      "robot2": 2918.8,
+      "robot3": 2396.1,
+      "ball": 0.0
+    },
+    "score": {
+      "robot1": 0,
+      "robot2": 0,
+      "robot3": 0
+    },
+    "total_events": 12,
+    "events_by_type": {
+      "collision": 12
+    }
+  },
+  "events": [
+    {
+      "type": "collision",
+      "frame": 0,
+      "time_s": 0.0,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.094
+    },
+    {
+      "type": "collision",
+      "frame": 6,
+      "time_s": 0.2,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.052
+    },
+    {
+      "type": "collision",
+      "frame": 9,
+      "time_s": 0.3,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.068
+    },
+    {
+      "type": "collision",
+      "frame": 12,
+      "time_s": 0.4,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.061
+    },
+    {
+      "type": "collision",
+      "frame": 15,
+      "time_s": 0.5,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.051
+    },
+    {
+      "type": "collision",
+      "frame": 31,
+      "time_s": 1.03,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.092
+    },
+    {
+      "type": "collision",
+      "frame": 34,
+      "time_s": 1.13,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.103
+    },
+    {
+      "type": "collision",
+      "frame": 42,
+      "time_s": 1.4,
+      "robots": [
+        "robot1",
+        "robot3"
+      ],
+      "iou": 0.054
+    },
+    {
+      "type": "collision",
+      "frame": 43,
+      "time_s": 1.43,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.089
+    },
+    {
+      "type": "collision",
+      "frame": 47,
+      "time_s": 1.57,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.065
+    },
+    {
+      "type": "collision",
+      "frame": 50,
+      "time_s": 1.67,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.095
+    },
+    {
+      "type": "collision",
+      "frame": 54,
+      "time_s": 1.8,
+      "robots": [
+        "robot2",
+        "robot3"
+      ],
+      "iou": 0.095
+    }
+  ],
+  "paths": {
+    "robot1": [
+      [
+        632,
+        475
+      ],
+      [
+        654,
+        515
+      ],
+      [
+        667,
+        564
+      ],
+      [
+        668,
+        615
+      ],
+      [
+        647,
+        670
+      ],
+      [
+        607,
+        730
+      ],
+      [
+        587,
+        731
+      ],
+      [
+        549,
+        735
+      ],
+      [
+        564,
+        726
+      ],
+      [
+        597,
+        702
+      ],
+      [
+        622,
+        663
+      ],
+      [
+        615,
+        656
+      ],
+      [
+        621,
+        610
+      ],
+      [
+        607,
+        572
+      ],
+      [
+        603,
+        571
+      ],
+      [
+        602,
+        577
+      ],
+      [
+        591,
+        595
+      ],
+      [
+        575,
+        635
+      ],
+      [
+        536,
+        685
+      ],
+      [
+        492,
+        706
+      ],
+      [
+        462,
+        704
+      ],
+      [
+        461,
+        701
+      ],
+      [
+        488,
+        694
+      ],
+      [
+        537,
+        675
+      ],
+      [
+        586,
+        624
+      ],
+      [
+        629,
+        558
+      ],
+      [
+        655,
+        504
+      ],
+      [
+        669,
+        485
+      ],
+      [
+        673,
+        493
+      ],
+      [
+        670,
+        527
+      ],
+      [
+        660,
+        573
+      ],
+      [
+        641,
+        631
+      ],
+      [
+        641,
+        693
+      ],
+      [
+        671,
+        735
+      ],
+      [
+        701,
+        708
+      ],
+      [
+        737,
+        654
+      ],
+      [
+        787,
+        587
+      ],
+      [
+        836,
+        520
+      ],
+      [
+        889,
+        468
+      ],
+      [
+        955,
+        434
+      ],
+      [
+        1018,
+        422
+      ],
+      [
+        1090,
+        424
+      ],
+      [
+        1141,
+        407
+      ],
+      [
+        1185,
+        382
+      ],
+      [
+        1196,
+        370
+      ],
+      [
+        1169,
+        360
+      ],
+      [
+        1126,
+        359
+      ],
+      [
+        1081,
+        378
+      ],
+      [
+        1035,
+        408
+      ],
+      [
+        977,
+        424
+      ],
+      [
+        1029,
+        410
+      ],
+      [
+        1018,
+        379
+      ],
+      [
+        1040,
+        339
+      ],
+      [
+        1055,
+        298
+      ],
+      [
+        1065,
+        256
+      ],
+      [
+        1088,
+        222
+      ],
+      [
+        1131,
+        201
+      ],
+      [
+        1168,
+        197
+      ],
+      [
+        1168,
+        196
+      ]
+    ],
+    "robot2": [
+      [
+        805,
+        442
+      ],
+      [
+        837,
+        464
+      ],
+      [
+        876,
+        494
+      ],
+      [
+        911,
+        540
+      ],
+      [
+        913,
+        589
+      ],
+      [
+        879,
+        654
+      ],
+      [
+        822,
+        728
+      ],
+      [
+        792,
+        769
+      ],
+      [
+        788,
+        754
+      ],
+      [
+        814,
+        741
+      ],
+      [
+        843,
+        733
+      ],
+      [
+        843,
+        723
+      ],
+      [
+        866,
+        731
+      ],
+      [
+        907,
+        731
+      ],
+      [
+        925,
+        734
+      ],
+      [
+        899,
+        716
+      ],
+      [
+        856,
+        676
+      ],
+      [
+        808,
+        633
+      ],
+      [
+        756,
+        623
+      ],
+      [
+        706,
+        632
+      ],
+      [
+        674,
+        633
+      ],
+      [
+        684,
+        620
+      ],
+      [
+        715,
+        611
+      ],
+      [
+        766,
+        612
+      ],
+      [
+        822,
+        619
+      ],
+      [
+        888,
+        627
+      ],
+      [
+        968,
+        633
+      ],
+      [
+        1059,
+        646
+      ],
+      [
+        1154,
+        674
+      ],
+      [
+        1241,
+        707
+      ],
+      [
+        1290,
+        724
+      ],
+      [
+        1324,
+        712
+      ],
+      [
+        1338,
+        719
+      ],
+      [
+        1311,
+        716
+      ],
+      [
+        1256,
+        726
+      ],
+      [
+        1164,
+        739
+      ],
+      [
+        1047,
+        719
+      ],
+      [
+        968,
+        746
+      ],
+      [
+        935,
+        721
+      ],
+      [
+        943,
+        701
+      ],
+      [
+        961,
+        678
+      ],
+      [
+        1020,
+        675
+      ],
+      [
+        1111,
+        654
+      ],
+      [
+        1227,
+        651
+      ],
+      [
+        1358,
+        668
+      ],
+      [
+        1460,
+        666
+      ],
+      [
+        1507,
+        706
+      ],
+      [
+        1507,
+        719
+      ],
+      [
+        1498,
+        699
+      ],
+      [
+        1493,
+        660
+      ],
+      [
+        1495,
+        659
+      ],
+      [
+        1511,
+        640
+      ],
+      [
+        1485,
+        647
+      ],
+      [
+        1480,
+        643
+      ],
+      [
+        1463,
+        655
+      ],
+      [
+        1428,
+        645
+      ],
+      [
+        1380,
+        632
+      ],
+      [
+        1332,
+        604
+      ],
+      [
+        1340,
+        580
+      ]
+    ],
+    "robot3": [
+      [
+        848,
+        308
+      ],
+      [
+        869,
+        320
+      ],
+      [
+        889,
+        339
+      ],
+      [
+        915,
+        367
+      ],
+      [
+        931,
+        407
+      ],
+      [
+        932,
+        467
+      ],
+      [
+        911,
+        541
+      ],
+      [
+        899,
+        586
+      ],
+      [
+        910,
+        585
+      ],
+      [
+        934,
+        569
+      ],
+      [
+        960,
+        565
+      ],
+      [
+        958,
+        556
+      ],
+      [
+        979,
+        549
+      ],
+      [
+        987,
+        538
+      ],
+      [
+        1003,
+        534
+      ],
+      [
+        1028,
+        538
+      ],
+      [
+        1056,
+        556
+      ],
+      [
+        1040,
+        579
+      ],
+      [
+        976,
+        593
+      ],
+      [
+        899,
+        609
+      ],
+      [
+        866,
+        627
+      ],
+      [
+        869,
+        627
+      ],
+      [
+        901,
+        610
+      ],
+      [
+        957,
+        587
+      ],
+      [
+        1040,
+        569
+      ],
+      [
+        1138,
+        544
+      ],
+      [
+        1243,
+        519
+      ],
+      [
+        1367,
+        501
+      ],
+      [
+        1479,
+        506
+      ],
+      [
+        1519,
+        521
+      ],
+      [
+        1496,
+        522
+      ],
+      [
+        1451,
+        530
+      ],
+      [
+        1451,
+        539
+      ],
+      [
+        1444,
+        556
+      ],
+      [
+        1421,
+        582
+      ],
+      [
+        1368,
+        606
+      ],
+      [
+        1317,
+        596
+      ],
+      [
+        1303,
+        575
+      ],
+      [
+        1300,
+        565
+      ],
+      [
+        1318,
+        558
+      ],
+      [
+        1303,
+        552
+      ],
+      [
+        1275,
+        530
+      ],
+      [
+        1307,
+        514
+      ],
+      [
+        1370,
+        488
+      ],
+      [
+        1508,
+        595
+      ],
+      [
+        1575,
+        468
+      ],
+      [
+        1578,
+        481
+      ],
+      [
+        1576,
+        470
+      ],
+      [
+        1568,
+        442
+      ],
+      [
+        1569,
+        454
+      ],
+      [
+        1562,
+        394
+      ],
+      [
+        1556,
+        427
+      ],
+      [
+        1558,
+        417
+      ],
+      [
+        1540,
+        458
+      ],
+      [
+        1515,
+        418
+      ],
+      [
+        1492,
+        395
+      ],
+      [
+        1436,
+        373
+      ],
+      [
+        1382,
+        347
+      ]
+    ],
+    "ball": []
+  }
+}

@@ -5,9 +5,21 @@
     1080
   ],
   "corners_image": {
-    "top_left": [90, 0],
-    "top_right": [1775, 5],
-    "bottom_right": [1875, 575],
-    "bottom_left": [290, 470]
+    "top_left": [
+      200,
+      250
+    ],
+    "top_right": [
+      1220,
+      30
+    ],
+    "bottom_right": [
+      1920,
+      300
+    ],
+    "bottom_left": [
+      400,
+      1080
+    ]
   }
 }

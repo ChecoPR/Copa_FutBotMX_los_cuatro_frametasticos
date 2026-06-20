@@ -1,16 +1,67 @@
 # Copa FutBotMX — Los Cuatro Frametásticos
 
+<div align="center">
+
+**Pipeline de visión por computadora para análisis automático de partidos de fútbol robótico.**  
+Detecta robots y balón, construye trayectorias, identifica goles/tiros/pases y genera visualizaciones con estadísticas en tiempo real.
+
+</div>
+
+---
+
+<div align="center">
+
+### Análisis completo
+
+![Pipeline completo sobre IMG_9866: tracking, vista cenital y HUD de estadísticas](output/gif/IMG_9866_sidebyside.gif)
+
+*Frame original con detección YOLO+SAM3 (izq.) · Campo cenital con trayectorias y HUD de estadísticas en vivo (der.)*
+
+</div>
+
+---
+
+<div align="center">
+
+### Partidos analizados
+
+| IMG_9866 | IMG_9868 | IMG_9869 |
+|:---:|:---:|:---:|
+| ![](output/gif/IMG_9866_sidebyside.gif) | ![](output/gif/IMG_9868_sidebyside.gif) | ![](output/gif/IMG_9869_sidebyside.gif) |
+| robot1 **70.6%** posesión · **2 goles** | Partido 2 | Partido 3 |
+
+</div>
+
+---
+
+<div align="center">
+
+### Segmentación y tracking — detalle
+
+| Overlays SAM3 + YOLO sobre frame original |
+|:---:|
+| ![Máscaras SAM3 (balón) y bounding boxes YOLO (robots) — IMG_9866](output/gif/IMG_9866_tracked.gif) |
+| *Máscara pixel-level SAM3 (balón, cian) propagada automáticamente · Bounding boxes YOLO (robots) con Hungarian assignment anti-swap* |
+
+| IMG_9868 | IMG_9869 |
+|:---:|:---:|
+| ![](output/gif/IMG_9868_tracked.gif) | ![](output/gif/IMG_9869_tracked.gif) |
+
+</div>
+
+---
+
 ## Tabla de contenidos
 
 1. [Resumen del sistema](#1-resumen-del-sistema)
 2. [Instalación y configuración](#2-instalación-y-configuración)
-3. [Pipeline paso a paso](#3-pipeline-paso-a-paso)
-4. [Descripción de scripts](#4-descripción-de-scripts)
-5. [Fórmulas y algoritmos](#5-fórmulas-y-algoritmos)
-6. [Estructura de salidas](#6-estructura-de-salidas)
-7. [Resultados sobre IMG_9866](#7-resultados-sobre-img_9866)
-8. [Innovaciones técnicas](#8-innovaciones-técnicas)
-9. [Reproducibilidad](#9-reproducibilidad)
+3. [Ejecución rápida](#3-ejecución-rápida)
+4. [Pipeline paso a paso](#4-pipeline-paso-a-paso)
+5. [Descripción de scripts](#5-descripción-de-scripts)
+6. [Fórmulas y algoritmos](#6-fórmulas-y-algoritmos)
+7. [Estructura de salidas](#7-estructura-de-salidas)
+8. [Resultados sobre IMG_9866](#8-resultados-sobre-img_9866)
+9. [Innovaciones técnicas](#9-innovaciones-técnicas)
 
 ---
 
@@ -21,21 +72,23 @@ Pipeline de visión por computadora para analizar partidos de fútbol robótico 
 ```
 Video .MOV
     │
-    ▼ extract_frames.py
-Frames JPG (step=3)
+    ▼ extract_frames.py        --step 3
+Frames JPG (1 de cada 3 frames)
     │
-    ▼ pipeline.py --auto
-Tracks JSON + Máscaras SAM3 + Video con overlays
+    ▼ auto_corners.py          --frame ... --out ...
+field_corners_<VIDEO>.json  (homografía cámara → campo)
     │
-    ▼ auto_corners.py
-Homografía perspectiva → vista cenital
+    ▼ pipeline.py              --auto
+tracks/<VIDEO>_tracks.json  +  masks/<VIDEO>/  +  videos/<VIDEO>_tracked.mp4
     │
-    ▼ analytics.py
-Analytics JSON (posesión, velocidad, eventos, goles)
+    ▼ analytics.py             --fps 30 --step 3
+analytics/<VIDEO>_analytics.json
     │
-    ▼ visualize.py
-Heatmaps · Voronoi · Trayectorias · Video side-by-side
+    ▼ visualize.py             video | heatmap | topdown
+videos/<VIDEO>_sidebyside.mp4  ·  viz/<VIDEO>/topdown_panel.png  ·  …
 ```
+
+El script `run_pipeline.sh` orquesta las cinco etapas anteriores en una sola invocación.
 
 ### Arquitectura de detección y tracking
 
@@ -55,38 +108,142 @@ Heatmaps · Voronoi · Trayectorias · Video side-by-side
 
 ## 2. Instalación y configuración
 
-### Requisitos de hardware
+### Requisitos
 
-| GPU | VRAM | Compute | Uso |
-|-----|------|---------|-----|
-| GTX 1080 (GPU 0) | 8 GB | sm_61 | Disponible |
-| TITAN X (GPU 1) | 11 GB | sm_52 | **En uso** (SAM3) |
+- Python 3.10 o superior
+- GPU NVIDIA con CUDA 11.8+ (recomendado 8 GB VRAM)
+- CUDA Toolkit instalado en el sistema ([guía oficial](https://developer.nvidia.com/cuda-downloads))
 
-> **WSL2**: NCCL multi-GPU falla → siempre `gpus_to_use=[1]`
-
-### Entorno Python
+### Paso 1 — Clonar el repositorio
 
 ```bash
-python3.12 -m venv .venv
+git clone <url-del-repo>
+cd Copa_FutBotMX_los_cuatro_frametasticos
+```
+
+### Paso 2 — Crear y activar el entorno virtual
+
+```bash
+python3 -m venv .venv
+
+# Linux / macOS / WSL2
 source .venv/bin/activate
+
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+```
+
+### Paso 3 — Instalar PyTorch con CUDA
+
+Elige el comando según tu versión de CUDA (ver [pytorch.org](https://pytorch.org/get-started/locally/)):
+
+```bash
+# CUDA 12.6
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
+
+# CUDA 11.8
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+```
+
+### Paso 4 — Instalar dependencias del proyecto
+
+```bash
 pip install -r requirements.txt
 ```
 
-### Parches aplicados a SAM3 (GPU TITAN X sm_52)
+### Paso 5 — Instalar SAM3
 
-Los siguientes archivos tienen `bfloat16 → float16` y `Triton → scipy`:
+SAM3 se incluye como subcarpeta del repositorio e instala en modo editable:
 
-| Archivo | Línea | Cambio |
-|---------|-------|--------|
-| `sam3/sam3/model/sam3_base_predictor.py` | 205 | `float16` |
-| `sam3/sam3/model/sam3_video_inference.py` | 800, 908 | `float16` |
-| `sam3/sam3/model/sam3_tracking_predictor.py` | 50, 1097, 1148 | `float16` |
-| `sam3/sam3/model/sam3_image.py` | 864 | `float16` |
-| `sam3/sam3/perflib/connected_components.py` | — | fallback scipy CPU |
+```bash
+pip install -e sam3/
+```
+
+### Paso 6 — Verificar instalación
+
+```bash
+# CUDA disponible
+python -c "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0))"
+
+# Dependencias del proyecto
+python -c "import cv2, ultralytics, scipy, numpy, matplotlib; print('Dependencias OK')"
+
+# SAM3
+python -c "from sam3.model_builder import build_sam3_video_predictor; print('SAM3 OK')"
+```
+
+### Modelo YOLO (incluido en el repositorio)
+
+El modelo YOLOv8 fine-tuned sobre robots Zumo y balón naranja se incluye en:
+
+```
+runs/detect/train-2/weights/best.pt
+```
+
+No requiere descarga adicional.
 
 ---
 
-## 3. Pipeline paso a paso
+## 3. Ejecución rápida
+
+`run_pipeline.sh` orquesta las cinco etapas del pipeline en una sola invocación. Detecta automáticamente robots y balón con YOLO y SAM3, calibra la homografía del campo, calcula analytics y genera el video side-by-side con HUD de estadísticas.
+
+```bash
+# Activar entorno virtual
+source .venv/bin/activate
+
+# Pipeline completo con detección automática
+bash run_pipeline.sh --video /mnt/d/videos/IMG_9866.MOV --step 3 --fps 10
+```
+
+### Argumentos de run_pipeline.sh
+
+| Argumento | Default | Descripción |
+|-----------|---------|-------------|
+| `--video <ruta>` | — | **Obligatorio.** Archivo de video de entrada (.MOV, .MP4, etc.) |
+| `--step <n>` | `1` | Paso de extracción de frames. `--step 3` con video a 30 fps → 10 fps efectivos |
+| `--fps <n>` | `10` | FPS del video de salida |
+| `--ball_point <x,y>` | — | Coordenadas manuales del centroide del balón cuando YOLO no lo detecta en el frame 0 |
+| `--ball_frame <n>` | `0` | Frame de inicialización del prompt SAM3 para el balón (usar con `--ball_point`) |
+| `--tl/--tr/--br/--bl <x,y>` | — | Esquinas del campo en píxeles (top-left, top-right, bottom-right, bottom-left). Si se pasan los 4 puntos se omite la detección automática |
+| `--skip_tracking` | `false` | Omite extracción + tracking y reutiliza el tracks JSON existente |
+| `--skip_corners` | `false` | Reutiliza el JSON de esquinas si ya existe |
+| `--skip_video` | `false` | Omite el render del video side-by-side |
+| `--open` | `false` | Abre el video resultante con el explorador de Windows (WSL2) |
+| `--python <ruta>` | `.venv/bin/python3` | Intérprete Python a usar |
+
+### Ejemplos representativos
+
+```bash
+# Detección totalmente automática, step=3
+bash run_pipeline.sh --video videos/IMG_9866.MOV --step 3
+
+# Balón no visible en frame 0: inicializar SAM3 desde frame 5
+bash run_pipeline.sh --video videos/IMG_9869.MOV --step 3 \
+    --ball_point 1085,267 --ball_frame 5
+
+# Esquinas del campo especificadas manualmente (cámara en ángulo severo)
+bash run_pipeline.sh --video videos/IMG_9866.MOV --step 3 \
+    --tl 90,0 --tr 1775,5 --br 1875,575 --bl 290,470
+
+# Re-analizar sin re-ejecutar tracking (tracks ya calculados)
+bash run_pipeline.sh --video videos/IMG_9866.MOV --step 3 --skip_tracking
+```
+
+### Salidas generadas
+
+| Archivo | Descripción |
+|---------|-------------|
+| `output/tracks/<VIDEO>_tracks.json` | Centroides y bounding boxes por frame (YOLO/SAM3) |
+| `output/analytics/<VIDEO>_analytics.json` | Posesión, velocidades, distancias, eventos, marcador |
+| `output/field_corners_<VIDEO>.json` | Esquinas del campo para homografía perspectiva |
+| `output/videos/<VIDEO>_sidebyside.mp4` | Video side-by-side con HUD de estadísticas en vivo |
+| `output/debug/<VIDEO>_autodetect.jpg` | Detecciones YOLO en el frame 0 |
+| `output/debug/<VIDEO>_corners_debug.jpg` | Visualización de la homografía detectada |
+
+---
+
+## 4. Pipeline paso a paso
 
 ### Etapa 1 — Extracción de frames
 
@@ -99,7 +256,33 @@ python scripts/extract_frames.py \
 
 `--step 3` extrae 1 de cada 3 frames → a 30 fps original = 10 fps efectivos.
 
-### Etapa 2 — Segmentación y tracking (pipeline)
+### Etapa 2 — Detección de esquinas del campo (homografía)
+
+```bash
+python scripts/auto_corners.py \
+    --frame  output/frames/IMG_9866/00000.jpg \
+    --out    output/field_corners_IMG_9866.json \
+    --debug  output/debug/IMG_9866_corners_debug.jpg
+```
+
+Si la detección automática falla (cámara en ángulo severo), se pueden especificar las esquinas manualmente con `--tl/--tr/--br/--bl`. También es posible generar una imagen con cuadrícula de coordenadas para identificarlas visualmente:
+
+```bash
+python scripts/auto_corners.py \
+    --frame output/frames/IMG_9866/00000.jpg \
+    --grid  output/grid_IMG_9866.jpg
+
+python scripts/auto_corners.py \
+    --frame output/frames/IMG_9866/00000.jpg \
+    --tl 90,0 --tr 1775,5 --br 1875,575 --bl 290,470 \
+    --out output/field_corners_IMG_9866.json
+```
+
+![Detección de esquinas y porterías por color](output/debug/IMG_9866_corners_debug.jpg)
+
+*Las líneas verdes definen el cuadrilátero del campo (homografía). Los puntos YELLOW y BLUE son los centroides de las porterías detectadas por mediana temporal HSV. La miniatura muestra la vista cenital resultante.*
+
+### Etapa 3 — Segmentación y tracking (pipeline)
 
 ```bash
 python scripts/pipeline.py \
@@ -111,7 +294,15 @@ python scripts/pipeline.py \
 #   output/videos/IMG_9866_tracked.mp4
 ```
 
-El modo `--auto` detecta objetos automáticamente con YOLO en el primer frame.
+El modo `--auto` detecta objetos automáticamente con YOLO en el primer frame. Si el balón no es visible en el frame 0, se puede inicializar SAM3 desde otro frame:
+
+```bash
+python scripts/pipeline.py \
+    --frames_dir output/frames/IMG_9866 \
+    --auto \
+    --ball_point 1085,267 \
+    --ball_frame 5
+```
 
 **Detección automática — frame 0:**
 
@@ -124,33 +315,6 @@ El modo `--auto` detecta objetos automáticamente con YOLO en el primer frame.
 ![Tracking activo: robot1, robot2 y balón con bounding boxes](output/debug/IMG_9866_tracked_frame3.jpg)
 
 *SAM3 propaga la máscara del balón frame a frame; YOLO re-detecta robots con Hungarian assignment para evitar intercambio de identidades.*
-
-### Etapa 3 — Detección de esquinas del campo (homografía)
-
-```bash
-python scripts/auto_corners.py \
-    --frame  output/frames/IMG_9866/00000.jpg \
-    --out    output/field_corners_IMG_9866.json \
-    --debug  output/debug/IMG_9866_corners_debug.jpg
-```
-
-Si la detección automática falla (cámara en ángulo severo), edita el JSON manualmente:
-
-```json
-{
-  "frame_size": [1920, 1080],
-  "corners_image": {
-    "top_left":     [90,   0],
-    "top_right":    [1775, 5],
-    "bottom_right": [1875, 575],
-    "bottom_left":  [290,  470]
-  }
-}
-```
-
-![Detección de esquinas y porterías por color](output/debug/debug_corners_IMG_9866.jpg)
-
-*Las líneas verdes definen el cuadrilátero del campo (homografía). Los puntos YELLOW y BLUE son los centroides de las porterías detectadas por mediana temporal HSV. La miniatura muestra la vista cenital resultante.*
 
 ### Etapa 4 — Analytics
 
@@ -189,25 +353,26 @@ python scripts/visualize.py topdown \
 
 ---
 
-## 4. Descripción de scripts
+## 5. Descripción de scripts
 
 | Script | Función |
 |--------|---------|
-| `extract_frames.py` | Extrae frames de video `.MOV` a JPEG con paso configurable |
-| `pipeline.py` | Pipeline principal: YOLO (robots) + SAM3 (balón) → tracks + máscaras + video |
-| `auto_corners.py` | Detecta las 4 esquinas del campo por líneas blancas HSV + posición de porterías |
-| `analytics.py` | Calcula posesión, velocidad, eventos (pase, colisión, gol, tiro) |
-| `visualize.py` | Heatmaps, Voronoi, trayectorias, video side-by-side con vista cenital |
-| `auto_detect.py` | Detección YOLO del primer frame para inicialización automática |
+| `run_pipeline.sh` | Orquestador Bash: ejecuta las 5 etapas del pipeline en una sola invocación |
+| `extract_frames.py` | Extrae frames de video `.MOV` a JPEG con paso configurable (`--step`) |
+| `pipeline.py` | Pipeline principal: YOLO (robots) + SAM3 (balón) → tracks JSON + máscaras + video |
+| `auto_corners.py` | Detecta las 4 esquinas del campo (líneas blancas HSV + silueta verde + porterías) |
+| `analytics.py` | Calcula posesión, velocidad, distancia y eventos (pase, colisión, gol, tiro a gol) |
+| `visualize.py` | Heatmaps, Voronoi, trayectorias y video side-by-side con HUD de estadísticas |
+| `auto_detect.py` | Detección YOLO en el frame 0 para inicialización automática del pipeline |
 | `pick_points.py` | Herramienta interactiva para seleccionar prompts de punto (requiere GUI) |
-| `pick_field_corners.py` | Herramienta interactiva para marcar esquinas (requiere GUI) |
-| `yolo_sam3_tracker.py` | Prototipo de integración YOLO → SAM3 (ensamble) |
+| `pick_field_corners.py` | Herramienta interactiva para marcar esquinas del campo (requiere GUI) |
+| `yolo_sam3_tracker.py` | Prototipo de integración YOLO → SAM3 en ensamble |
 
 ---
 
-## 5. Fórmulas y algoritmos
+## 6. Fórmulas y algoritmos
 
-### 5.1 Tracking de robots — Zona de fusión
+### 6.1 Tracking de robots — Zona de fusión
 
 Cuando los robots están separados (`d > MERGE_DIST = 160 px`):
 
@@ -226,14 +391,14 @@ prediccion_i(t) = pre_snap_i.posicion + pre_snap_i.velocidad × frames_en_zona
 
 Este mecanismo preserva las identidades aunque los robots estén superpuestos.
 
-### 5.2 Posesión
+### 6.2 Posesión
 
 ```
 posesion(t) = argmin_robot { ||centroide_robot - centroide_balon|| }
     si esa distancia < POSSESSION_DIST_PX = 150 px
 ```
 
-### 5.3 Velocidad y distancia
+### 6.3 Velocidad y distancia
 
 ```
 velocidad_i(t) [px/s] = ||centroide_i(t) - centroide_i(t-1)|| × fps_efectivos
@@ -243,7 +408,7 @@ fps_efectivos = fps_original / step = 30 / 3 = 10 fps
 distancia_i = Σ_t ||centroide_i(t) - centroide_i(t-1)||
 ```
 
-### 5.4 Detección de eventos
+### 6.4 Detección de eventos
 
 **Pase** — cambio de posesor con cooldown de 3 frames:
 ```
@@ -274,7 +439,7 @@ Para k = 1..SHOT_LOOKAHEAD (18 frames):
     si (px, py) ∈ bbox_porteria ± SHOT_MARGIN → TIRO detectado
 ```
 
-### 5.5 Detección de porterías — Mediana temporal HSV
+### 6.5 Detección de porterías — Mediana temporal HSV
 
 ```
 Para N_MEDIAN = 20 frames muestreados uniformemente:
@@ -291,7 +456,7 @@ Rangos HSV:
 | Amarillo | 15–38 | >100 | >100 |
 | Azul | 95–130 | >100 | >40 |
 
-### 5.6 Homografía para vista cenital
+### 6.6 Homografía para vista cenital
 
 Se calculan 4 correspondencias campo→canvas:
 
@@ -312,7 +477,7 @@ BR = (1875, 575) BL = (290, 470)
 
 ---
 
-## 6. Estructura de salidas
+## 7. Estructura de salidas
 
 ```
 output/
@@ -331,6 +496,9 @@ output/
 ├── videos/
 │   ├── <video>_tracked.mp4      # Video con overlays SAM3/YOLO
 │   └── <video>_sidebyside.mp4   # Video side-by-side con vista cenital
+├── gif/
+│   ├── <video>_sidebyside.gif   # GIF del video side-by-side (640 px)
+│   └── <video>_tracked.gif      # GIF con overlays SAM3/YOLO (640 px)
 ├── viz/
 │   └── <video>/
 │       ├── heatmap_robot1.jpg
@@ -392,7 +560,7 @@ output/
 
 ---
 
-## 7. Resultados sobre IMG_9866
+## 8. Resultados sobre IMG_9866
 
 Video de prueba: `IMG_9866.MOV` (102 frames extraídos, step=3 → 10 fps efectivos ≈ 10.2 s)
 
@@ -447,13 +615,13 @@ Video de prueba: `IMG_9866.MOV` (102 frames extraídos, step=3 → 10 fps efecti
 
 ---
 
-## 8. Innovaciones técnicas
+## 9. Innovaciones técnicas
 
-### 8.1 Ensamble YOLO + SAM3
+### 9.1 Ensamble YOLO + SAM3
 
 Combinación de dos modelos complementarios:
 
-- **YOLO** (`yolo26n.pt` entrenado en robots): detección rápida cada frame → bounding boxes
+- **YOLO** (`runs/detect/train-2/weights/best.pt` entrenado en robots): detección rápida cada frame → bounding boxes
 - **SAM3** (Meta AI): segmentación semántica de alta calidad → máscara precisa del balón
 
 YOLO identifica a los robots aunque sean visualmente idénticos gracias al tracking por proximidad.  
@@ -463,7 +631,7 @@ SAM3 produce máscaras pixel-level del balón propagadas automáticamente a todo
 
 *YOLOv8 fine-tuned sobre ~48 imágenes anotadas de robots Zumo + balón naranja. Conf threshold = 0.25. Fallback HSV si YOLO no encuentra el balón.*
 
-### 8.2 Tracking anti-swap con zona de fusión
+### 9.2 Tracking anti-swap con zona de fusión
 
 Problema: cuando dos robots se tocan, los trackers simples intercambian las etiquetas.
 
@@ -473,7 +641,7 @@ Solución implementada:
 3. **Extrapolación durante el contacto**: las predicciones se calculan desde el snapshot, no desde la posición observada
 4. **Hungarian assignment global** (scipy): asignación óptima detección↔label en cada frame
 
-### 8.3 Predicción de tiro a gol
+### 9.3 Predicción de tiro a gol
 
 El sistema detecta tiros **antes** de que el balón entre a la portería:
 
@@ -483,7 +651,7 @@ El sistema detecta tiros **antes** de que el balón entre a la portería:
 
 Esto permite actuar cuando SAM3 pierde el balón al entrar a la portería.
 
-### 8.4 Detección de porterías por mediana temporal
+### 9.4 Detección de porterías por mediana temporal
 
 Las porterías son amarilla y azul, pero en el campo hay otros objetos de esos colores (robots con pequeños LEDs, ropa de personas, etc.).
 
@@ -492,11 +660,7 @@ Filtro de mediana temporal:
 - Elimina robots en movimiento, personas, reflejos dinámicos
 - Las porterías (fijas) generan máscaras estables
 
-![Detección de porterías por HSV: azul (izquierda) y amarillo (derecha)](output/viz/IMG_9866/debug_goals.jpg)
-
-*Resultado del filtro HSV sobre el frame real. Azul detecta la portería izquierda (a pesar del ruido de ropa), amarillo detecta la portería derecha con alta precisión.*
-
-### 8.5 Vista cenital con homografía perspectiva
+### 9.5 Vista cenital con homografía perspectiva
 
 La cámara no está en posición cenital; tiene un ángulo de ~45°. Para corregirlo:
 
@@ -506,73 +670,13 @@ La cámara no está en posición cenital; tiene un ángulo de ~45°. Para correg
 
 Esto produce una vista top-down donde las posiciones son métricamente correctas aunque la cámara esté inclinada.
 
-![Esquinas del campo con vista cenital preview](output/debug/debug_corners_IMG_9866.jpg)
+![Esquinas del campo con vista cenital preview](output/debug/IMG_9866_corners_debug.jpg)
 
 *Las líneas verdes delimitan el campo. La miniatura en la esquina superior izquierda muestra la vista cenital resultante tras la homografía.*
 
 ---
 
-## 9. Reproducibilidad
+## Licencia
 
-### Semillas y determinismo
+Este proyecto se distribuye bajo la licencia [MIT](LICENSE).
 
-- YOLO: modo inferencia (sin entrenamiento), determinista dado el mismo modelo
-- SAM3: propagación determinista dado el mismo frame 0 y prompt
-- Analytics: algoritmos puramente deterministas (sin muestreo aleatorio en inferencia)
-
-### Dependencias principales
-
-```
-torch==2.5.1+cu126
-torchvision==0.20.1+cu126
-ultralytics>=8.3
-opencv-python>=4.9
-scipy>=1.12
-numpy>=1.26
-```
-
-Ver `requirements.txt` para la lista completa.
-
-### Cómo reproducir el resultado de IMG_9866
-
-```bash
-# 1. Activar entorno
-source .venv/bin/activate
-cd /home/uaqfif/Copa_FutBotMX_los_cuatro_frametasticos
-
-# 2. Extraer frames (video en /mnt/d/videos/)
-python scripts/extract_frames.py --video /mnt/d/videos/IMG_9866.MOV --step 3
-
-# 3. Pipeline: YOLO robots + SAM3 balón
-python scripts/pipeline.py --frames_dir output/frames/IMG_9866 --auto
-
-# 4. Calibrar campo (esquinas del campo para homografía)
-python scripts/auto_corners.py \
-    --frame output/frames/IMG_9866/00000.jpg \
-    --out   output/field_corners_IMG_9866.json
-
-# 5. Analytics (con detección de gol por color HSV)
-python scripts/analytics.py \
-    --tracks     output/tracks/IMG_9866_tracks.json \
-    --frames_dir output/frames/IMG_9866 \
-    --fps 30 --step 3
-
-# 6. Video side-by-side con vista cenital
-python scripts/visualize.py video \
-    --tracks     output/tracks/IMG_9866_tracks.json \
-    --analytics  output/analytics/IMG_9866_analytics.json \
-    --frames_dir output/frames/IMG_9866 \
-    --corners    output/field_corners_IMG_9866.json \
-    --output     output/videos/ --fps 10 --step 3
-
-# 7. Visualizaciones estáticas
-python scripts/visualize.py heatmap \
-    --analytics output/analytics/IMG_9866_analytics.json \
-    --bg        output/frames/IMG_9866/00000.jpg \
-    --output    output/viz/IMG_9866/
-
-python scripts/visualize.py topdown \
-    --analytics output/analytics/IMG_9866_analytics.json \
-    --corners   output/field_corners_IMG_9866.json \
-    --output    output/viz/IMG_9866/
-```

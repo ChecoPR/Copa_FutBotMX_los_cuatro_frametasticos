@@ -515,9 +515,9 @@ def cmd_trails(args):
 
 def cmd_voronoi(args):
     """
-    Diagrama de Voronoi dinámico: para cada frame renderiza las zonas de
-    control de cada robot y superpone la posición de todos los objetos.
-    Genera un video MP4 de resultado.
+    Genera un video MP4 frame a frame con overlay de centroide del balón e
+    indicador de poseedor actual. El análisis de Voronoi estático por
+    posición final de robots se encuentra en cmd_topdown.
     """
     with open(args.analytics) as f:
         data = json.load(f)
@@ -530,7 +530,6 @@ def cmd_voronoi(args):
     if not fidxs:
         print("Sin frames en analytics"); return
 
-    # Determinar tamaño del frame
     sample_path = os.path.join(frames_dir, f"{int(fidxs[0]):05d}.jpg")
     bg_sample   = cv2.imread(sample_path)
     if bg_sample is None:
@@ -551,22 +550,6 @@ def cmd_voronoi(args):
             continue
         vis = bg.copy()
 
-        # Recoger posiciones de robots
-        robot_pts   = []
-        robot_colors = []
-        for lbl, color in COLORS.items():
-            if not lbl.startswith("robot"):
-                continue
-            # Buscar centroide en el frame de analytics
-            # (no está directamente, usamos paths pero por frame no está disponible aquí;
-            #  reconstruimos desde frames_data)
-
-        # Buscar posiciones en el frame tracks original (necesitamos el tracks JSON)
-        # Como alternativa robusta, usar ball_pos y el campo de events
-        # Para Voronoi simplificado, usar pos del frame del analytics (ball_pos + ball_dists)
-        # Si no tenemos las pos por robot en analytics frames, saltar Voronoi per-frame
-        # y generar solo el frame final con los paths.
-        # Por ahora generamos el overlay básico con el ball_pos
         ball_pos = fdata.get("ball_pos")
         poss     = fdata.get("possessor")
 
@@ -587,10 +570,122 @@ def cmd_voronoi(args):
 
 # ── Video side-by-side ────────────────────────────────────────────────────────
 
-TRAIL_LEN    = 30     # posiciones pasadas a mostrar en la estela
-PANEL_W      = 960    # ancho de cada panel (salida total: 1920)
-PANEL_H      = 540    # alto (salida: 960×540 compatible con full-HD partida)
-FLASH_FRAMES = 18     # frames de destello en un gol
+TRAIL_LEN        = 30    # posiciones pasadas a mostrar en la estela
+PANEL_W          = 960   # ancho de cada panel (salida total: 1920)
+PANEL_H          = 540   # alto
+FLASH_FRAMES     = 18    # frames de destello en un gol
+NARRATION_FRAMES = 50    # frames que dura cada mensaje de narración
+HUD_H            = 122   # altura del panel HUD en la parte inferior del cenital
+
+
+# ── Narración en español ───────────────────────────────────────────────────────
+
+def _narration_text(ev):
+    """Convierte un evento en (texto_español, color_BGR)."""
+    t = ev["type"]
+    if t == "goal":
+        lado = {"left": "izquierda", "right": "derecha"}.get(ev.get("side", ""), "")
+        sc   = ev.get("scorer", "?")
+        sc_txt = f"{sc}: {ev['score'].get(sc, '?')}" if ev.get("score") else sc
+        return (f"GOL!  {sc_txt}  porteria {lado}", (50, 230, 80))
+    if t == "shot_on_goal":
+        lado = {"left": "izquierda", "right": "derecha"}.get(ev.get("side", ""), "")
+        return (f"Tiro a gol!  porteria {lado}", (50, 200, 255))
+    if t == "pass":
+        return (f"Pase:  {ev['from']} -> {ev['to']}", (60, 220, 255))
+    if t == "interception":
+        return (f"Intercepcion!  {ev['to']} le roba el balon a {ev['from']}", (40, 140, 255))
+    if t == "collision":
+        return (f"Colision:  {' y '.join(ev['robots'])}", (160, 60, 255))
+    return (f"{t}  {ev.get('time_s', '')}s", (200, 200, 200))
+
+
+# ── HUD de estadísticas en vivo ────────────────────────────────────────────────
+
+def _draw_hud(td, time_s, goal_scores, poss_counts, frame_count,
+              cur_speeds, cum_dists, narration_queue, robot_labels, possessor):
+    """
+    Superpone el HUD en la parte inferior del panel cenital (in-place).
+
+    Diseño (HUD_H px desde la base):
+      Fila 1 — narración del último evento (centrada, coloreada)
+      Fila 2 — tiempo (izq) | marcador (der)
+      Fila N — por robot: barra de posesión | velocidad | distancia
+    """
+    PH, PW = td.shape[:2]
+    y0 = PH - HUD_H
+
+    # Fondo semitransparente
+    roi = td[y0:].copy()
+    cv2.addWeighted(np.full_like(roi, (15, 15, 28)), 0.82, roi, 0.18, 0, roi)
+    td[y0:] = roi
+    cv2.line(td, (0, y0), (PW, y0), (55, 55, 80), 1)
+
+    # ── Fila 1: narración (centrada) ─────────────────────────────────────
+    y1 = y0 + 18
+    if narration_queue:
+        msg, col, rem = narration_queue[-1]
+        fade = min(rem / 8.0, 1.0)
+        fc   = tuple(int(c * fade + 45 * (1 - fade)) for c in col)
+        (tw, _), _ = cv2.getTextSize(msg, cv2.FONT_HERSHEY_SIMPLEX, 0.54, 1)
+        tx = max((PW - tw) // 2, 6)
+        cv2.putText(td, msg, (tx, y1),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.54, fc, 1, cv2.LINE_AA)
+
+    # ── Fila 2: tiempo | marcador ─────────────────────────────────────────
+    y2 = y0 + 36
+    mins, secs = divmod(int(time_s), 60)
+    cv2.putText(td, f"{mins:02d}:{secs:02d}", (8, y2),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.50, (130, 130, 130), 1, cv2.LINE_AA)
+    cv2.line(td, (0, y2 + 5), (PW, y2 + 5), (32, 32, 48), 1)
+
+    # Marcador (derecha, cada robot en su color)
+    sx = PW - 8
+    for lbl in sorted(goal_scores.keys(), reverse=True):
+        g    = goal_scores[lbl]
+        col  = COLORS.get(lbl, (200, 200, 200))[::-1]
+        stxt = f"{lbl}: {g}"
+        (sw, _), _ = cv2.getTextSize(stxt, cv2.FONT_HERSHEY_SIMPLEX, 0.50, 2)
+        sx -= sw
+        cv2.putText(td, stxt, (sx, y2), cv2.FONT_HERSHEY_SIMPLEX, 0.50, col, 2, cv2.LINE_AA)
+        sx -= 14
+
+    # ── Filas 3+: barra de posesión + stats por robot ────────────────────
+    BAR_W  = PW // 3
+    BAR_H  = 11
+    STAT_X = BAR_W + 118
+
+    for i, lbl in enumerate(sorted(robot_labels)):
+        yr    = y0 + 56 + i * 32
+        color = COLORS.get(lbl, (200, 200, 200))
+        bgr   = color[::-1]
+
+        # Punto verde si es el poseedor actual
+        dot_r = 5
+        dot_x = 6
+        if lbl == possessor:
+            cv2.circle(td, (dot_x, yr - 3), dot_r, (50, 230, 80), -1)
+        else:
+            cv2.circle(td, (dot_x, yr - 3), dot_r, (50, 50, 60), -1)
+
+        cv2.putText(td, lbl, (16, yr), cv2.FONT_HERSHEY_SIMPLEX, 0.43, bgr, 1, cv2.LINE_AA)
+
+        # Barra de posesión acumulada
+        pct = (poss_counts.get(lbl, 0) / max(frame_count, 1)) * 100
+        bx  = 78
+        bf  = max(0, int(BAR_W * pct / 100))
+        cv2.rectangle(td, (bx, yr - BAR_H + 1), (bx + BAR_W, yr + 1), (35, 35, 50), -1)
+        if bf > 0:
+            cv2.rectangle(td, (bx, yr - BAR_H + 1), (bx + bf, yr + 1), bgr, -1)
+        cv2.putText(td, f"{pct:.0f}%", (bx + BAR_W + 5, yr),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.40, bgr, 1, cv2.LINE_AA)
+
+        # Velocidad actual y distancia acumulada
+        spd  = cur_speeds.get(lbl, 0.0)
+        dist = cum_dists.get(lbl, 0.0)
+        cv2.putText(td, f"vel {spd:.0f}px/s   dist {dist:.0f}px",
+                    (STAT_X, yr),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.40, (125, 125, 140), 1, cv2.LINE_AA)
 
 
 def cmd_video(args):
@@ -642,13 +737,34 @@ def cmd_video(args):
 
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     writer = cv2.VideoWriter(video_path, fourcc, args.fps, (PANEL_W * 2, PANEL_H))
+    # Verificar que los frames existen antes de empezar
+    missing = [f"{int(i):05d}.jpg" for i in fidxs
+               if not os.path.exists(os.path.join(args.frames_dir, f"{int(i):05d}.jpg"))]
+    if missing:
+        print(f"  ADVERTENCIA: faltan {len(missing)} de {len(fidxs)} frames en {args.frames_dir}")
+        print(f"  Primero faltante: {missing[0]}  Ultimo: {missing[-1]}")
+        print(f"  Ejecuta:  python3 scripts/extract_frames.py --video <ruta>.MOV --step {args.step}")
+        if len(missing) > len(fidxs) * 0.5:
+            print("  ERROR: faltan mas del 50% de los frames. Abortando.")
+            return
+
     print(f"  Generando {video_path}  ({len(fidxs)} frames @ {args.fps} fps)…")
 
-    goal_scores  = {}
-    ball_trail   = []          # (tx, ty) en espacio cenital
-    robot_trails = {}          # label → [(tx,ty),…]
-    flash_queue  = []          # [[event, frames_restantes],…]
-    dt           = args.step / args.fps
+    goal_scores     = {}
+    ball_trail      = []          # (tx, ty) en espacio cenital
+    robot_trails    = {}          # label → [(tx,ty),…]
+    flash_queue     = []          # [[event, frames_restantes],…]
+    narration_queue = []          # [[msg, color_bgr, frames_restantes],…]
+    cum_poss        = {}          # label → frames con posesión acumulados
+    cum_dist        = {}          # label → distancia acumulada (px)
+    frame_count     = 0
+    dt              = args.step / args.fps
+
+    # Labels de robots presentes en el video
+    robot_labels_all = sorted({
+        lbl for fdata in tracks.values()
+        for lbl in fdata if lbl.startswith("robot")
+    })
 
     for fidx_str in fidxs:
         fidx = int(fidx_str)
@@ -656,21 +772,33 @@ def cmd_video(args):
         af   = af_frames.get(str(fidx), {})
         poss = af.get("possessor")
 
-        # Actualizar marcador y cola de destellos
+        # ── Leer frame fuente (necesario para ambos paneles) ─────────────
+        frame_path = os.path.join(args.frames_dir, f"{fidx:05d}.jpg")
+        frame = cv2.imread(frame_path)
+        if frame is None:
+            continue   # frame no existe → saltar sin actualizar nada
+        left = frame.copy()
+
+        # Actualizar marcador, destellos y narración
         for ev in events_by_frame.get(fidx, []):
             if ev["type"] == "goal":
                 goal_scores = dict(ev.get("score", goal_scores))
                 flash_queue.append([ev, FLASH_FRAMES])
             elif ev["type"] == "shot_on_goal":
                 flash_queue.append([ev, FLASH_FRAMES // 3])
-        flash_queue = [[ev, r - 1] for ev, r in flash_queue if r > 1]
+            msg, col = _narration_text(ev)
+            duracion  = NARRATION_FRAMES * (2 if ev["type"] == "goal" else 1)
+            narration_queue.append([msg, col, duracion])
+        flash_queue     = [[ev, r - 1] for ev, r in flash_queue     if r > 1]
+        narration_queue = [[m,  c, r - 1] for m, c, r in narration_queue if r > 1]
 
-        # ── Panel izquierdo: frame original con overlays ──────────────────
-        frame_path = os.path.join(args.frames_dir, f"{fidx:05d}.jpg")
-        frame = cv2.imread(frame_path)
-        if frame is None:
-            continue
-        left = frame.copy()
+        # Estadísticas acumuladas
+        if poss:
+            cum_poss[poss] = cum_poss.get(poss, 0) + 1
+        for lbl, spd in af.get("velocities", {}).items():
+            if lbl.startswith("robot"):
+                cum_dist[lbl] = cum_dist.get(lbl, 0.0) + spd * dt
+        frame_count += 1
         H_f, W_f = left.shape[:2]
 
         for lbl, obj in tf.items():
@@ -700,12 +828,12 @@ def cmd_video(args):
         cv2.putText(left, f"{time_s:.1f}s", (W_f - 130, 42),
                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, (220, 220, 220), 2, cv2.LINE_AA)
 
-        # Barra de posesión (parte inferior)
+        # Indicador de posesión (banda inferior del panel izquierdo)
+        pc = COLORS.get(poss, (60, 60, 60)) if poss else (60, 60, 60)
+        cv2.rectangle(left, (0, H_f - 8), (W_f, H_f), pc[::-1], -1)
         if poss:
-            pc = COLORS.get(poss, (200, 200, 200))
-            cv2.rectangle(left, (0, H_f - 10), (W_f, H_f), pc[::-1], -1)
-            cv2.putText(left, f"Posesion: {poss}", (20, H_f - 16),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, pc[::-1], 2, cv2.LINE_AA)
+            cv2.putText(left, f"Con balon: {poss}", (14, H_f - 14),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.72, (255, 255, 255), 2, cv2.LINE_AA)
 
         # Destello de gol
         for ev, remaining in flash_queue:
@@ -781,21 +909,18 @@ def cmd_video(args):
             cv2.circle(td, (tx, ty), 7, COLORS["ball"][::-1], -1)
             cv2.circle(td, (tx, ty), 8, (255, 255, 255), 1)
 
-        # Marcador en panel cenital
-        y_txt = 18
-        for lbl, g in goal_scores.items():
-            color = COLORS.get(lbl, (200, 200, 200))
-            cv2.putText(td, f"{lbl}: {g}", (8, y_txt),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, color[::-1], 2, cv2.LINE_AA)
-            y_txt += 20
-
-        # Destello en panel cenital
+        # Destello de gol en panel cenital
         for ev, remaining in flash_queue:
             if ev["type"] == "goal":
                 alpha = min(remaining / FLASH_FRAMES, 1.0) * 0.35
                 ov = td.copy()
                 cv2.rectangle(ov, (0, 0), (PANEL_W, PANEL_H), (0, 0, 200), -1)
                 cv2.addWeighted(ov, alpha, td, 1 - alpha, 0, td)
+
+        # HUD de estadísticas en vivo (sobre el panel cenital)
+        _draw_hud(td, time_s, goal_scores, cum_poss, frame_count,
+                  af.get("velocities", {}), cum_dist, narration_queue,
+                  robot_labels_all, poss)
 
         # ── Unir paneles ──────────────────────────────────────────────────
         combined = np.hstack([left, td])

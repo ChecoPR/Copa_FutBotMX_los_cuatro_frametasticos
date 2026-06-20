@@ -35,6 +35,7 @@ import numpy as np
 
 POSSESSION_DIST_PX   = 150    # px entre centroide robot-balón → posesión
 COLLISION_IOU_THRESH = 0.05   # IoU mínimo entre cajas de robots → colisión
+INTERCEPTION_DIST_PX = 200    # px entre robots para clasificar cambio de posesión como intercepción
 MIN_SCORE            = 0.3    # score SAM3/YOLO mínimo para usar centroide
 EVENT_MIN_GAP        = 3      # frames mínimos entre eventos del mismo tipo
 GOAL_COOLDOWN        = 30     # frames mínimos entre dos goles del mismo lado
@@ -357,19 +358,29 @@ def analyze(tracks: dict, fps: int = 30, step: int = 3,
         # ── Detección de eventos ───────────────────────────────────────────
         frame_events = []
 
-        # Pase: cambio de poseedor entre dos robots (no desde/hacia "none")
+        # Pase / Intercepción: cambio de poseedor entre dos robots (no desde/hacia "none")
+        # — Intercepción: robots cerca entre sí o cajas solapadas → el rival "roba" el balón
+        # — Pase: robots separados → transferencia deliberada
         if possessor != prev_possessor:
             if possessor is not None and prev_possessor is not None:
-                last = event_last.get("pass", -999)
+                pos_a = robot_pos.get(prev_possessor)
+                pos_b = robot_pos.get(possessor)
+                inter_dist = _dist(pos_a, pos_b) if pos_a and pos_b else float("inf")
+                iou_val    = _iou(robot_box.get(prev_possessor), robot_box.get(possessor))
+                ev_type    = ("interception"
+                              if inter_dist < INTERCEPTION_DIST_PX or iou_val > COLLISION_IOU_THRESH
+                              else "pass")
+                last = event_last.get(ev_type, -999)
                 if fidx - last >= EVENT_MIN_GAP:
                     ev = {
-                        "type": "pass", "frame": fidx,
-                        "time_s": round(fidx * dt, 2),
-                        "from": prev_possessor, "to": possessor,
+                        "type":       ev_type, "frame": fidx,
+                        "time_s":     round(fidx * dt, 2),
+                        "from":       prev_possessor, "to": possessor,
+                        "robot_dist": round(inter_dist, 1),
                     }
                     events.append(ev)
                     frame_events.append(ev)
-                    event_last["pass"] = fidx
+                    event_last[ev_type] = fidx
             prev_possessor = possessor
 
         # Colisión: IoU entre cajas de robots
@@ -561,6 +572,9 @@ def main():
     for ev in result["events"]:
         if ev["type"] == "pass":
             print(f"    Pase      {ev['time_s']:6.2f}s  {ev['from']} → {ev['to']}")
+        elif ev["type"] == "interception":
+            print(f"    Intercep  {ev['time_s']:6.2f}s  {ev['from']} → {ev['to']}  "
+                  f"(dist={ev['robot_dist']:.0f}px)")
         elif ev["type"] == "collision":
             print(f"    Colisión  {ev['time_s']:6.2f}s  {ev['robots']}  IoU={ev['iou']}")
         elif ev["type"] == "goal":
